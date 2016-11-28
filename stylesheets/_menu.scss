@@ -1,0 +1,42 @@
+.menu {
+  @include clearfix;
+  border-bottom: 1px solid #ddd;
+  background-color: #fff;
+  width: 100%;
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+
+  nav {
+    float: left;
+
+    a {
+      display: inline-block;
+      padding: 10px;
+
+      &.active {
+        padding-bottom: 8px;
+        border-bottom: 2px solid $brand-primary;
+      }
+    }
+  }
+
+  .search-container {
+    float: right;
+    width: 30%;
+
+    input {
+      width: 100%;
+      padding: 13px 10px;
+      border: none;
+      border-left: 1px solid #ddd;
+      background: #fafafa;
+      outline: none;
+
+      &:focus {
+        background: #fff;
+      }
+    }
+  }
+}

@@ -1,5 +1,4 @@
 import React from 'react'
-import { insertRule, merge } from 'next/css'
 import { SELLING, BUYING, ARTISAN, GROUP_BUY, INTEREST_CHECK, VENDOR } from '../lib/posts'
 import createCSS from '../lib/createCSS'
 
@@ -38,41 +37,27 @@ export default class Menu extends React.Component {
     let { selectedTab } = this.state
 
     return (
-      <nav className={styles.menu}>
-        {TABS.map((item, i) => {
-          return (
-            <a key={i}
-              href="#"
-              onClick={(e) => this._handleTabPress(e, i)}
-              className={merge(styles.menu_a, selectedTab === i ? styles.menu_a_active : null)}>
-              {item}
-            </a>
-          )
-        })}
+      <div className="menu">
+        <nav>
+          {TABS.map((item, i) => {
+            return (
+              <a key={i}
+                href="#"
+                onClick={(e) => this._handleTabPress(e, i)}
+                className={selectedTab === i ? 'active' : null}>
+                {item}
+              </a>
+            )
+          })}
+        </nav>
 
-        <input type="search"
-          value={this.state.query}
-          onChange={this._handleSearch}
-          placeholder="Search..." />
-      </nav>
+        <div className="search-container">
+          <input type="search"
+            value={this.state.query}
+            onChange={this._handleSearch}
+            placeholder="Search..." />
+        </div>
+      </div>
     )
   }
 }
-
-let styles = createCSS({
-  menu: {
-    borderBottom: '1px solid #ddd',
-    backgroundColor: '#fff',
-    width: '100%',
-    position: 'fixed',
-    top: 0,
-    left: 0,
-  },
-  menu_a: {
-    display: 'inline-block',
-    padding: 10,
-  },
-  menu_a_active: {
-    fontWeight: 'bold'
-  },
-})

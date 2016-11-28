@@ -1,0 +1,18 @@
+body {
+  line-height: 1.6;
+  font-family: Lato, Helvetica Neue;
+}
+
+a {
+  color: $brand-primary;
+  text-decoration: none;
+}
+
+.container {
+  width: 800px;
+  margin: 0 auto;
+}
+
+.text-muted {
+  color: gray;
+}

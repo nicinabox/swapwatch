@@ -15,7 +15,6 @@ const getTitleField = (selectedTab) => {
 export default class App extends React.Component {
   static async getInitialProps() {
     return await fetchPosts()
-      .then((resp) => parsePosts(resp.data.data.children))
       .then((posts) => ({ posts }))
       .catch((err) => {
         console.log(err)

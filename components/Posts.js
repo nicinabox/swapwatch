@@ -1,6 +1,5 @@
 import React from 'react'
 import timeago from 'timeago.js'
-import { merge } from 'next/css'
 import capitalize from 'lodash/capitalize'
 import createCSS from '../lib/createCSS'
 import { fetchPosts, parsePosts } from '../lib/posts'
@@ -36,7 +35,6 @@ export default class Posts extends React.Component {
     }
 
     fetchPosts(params)
-      .then((resp) => parsePosts(resp.data.data.children))
       .then((posts) => {
         this.setState({ posts: this.state.posts.concat(posts) })
       })
@@ -58,7 +56,7 @@ export default class Posts extends React.Component {
     let field = inverse(this.props.titleField)
 
     return field && (
-      <span className={merge(styles.subtext_span, styles.text_muted)}>
+      <span className="text-muted">
         {capitalize(field)} {post[field]}
       </span>
     )
@@ -66,13 +64,13 @@ export default class Posts extends React.Component {
 
   _renderLocation(post) {
     return post.location && (
-      <span className={styles.subtext_span}>{post.location}</span>
+      <span>{post.location}</span>
     )
   }
 
   _renderTimeAgo(post) {
     return (
-      <span className={merge(styles.subtext_span, styles.text_muted)}>
+      <span className="text-muted">
         {new timeago().format(post.created_utc * 1000)}
       </span>
     )
@@ -83,66 +81,36 @@ export default class Posts extends React.Component {
     let posts = this._getMatchingPosts()
 
     return (
-      <div className={styles.container}>
-        {posts.map((post, i) => {
-          return (
-            <a key={i} href={post.url} className={styles.row_a}>
-              <div className={styles.row_subtext}>
-                {this._renderLocation(post)}
-                {this._renderTimeAgo(post)}
-              </div>
+      <div className="posts">
+        <div className="container">
+          <p className="text-muted">New posts</p>
 
-              <strong>
-                {post[titleField]}
-              </strong>
+          {posts.map((post, i) => {
+            return (
+              <a key={i} href={post.url} className="post">
+                <div className="post-meta">
+                  {this._renderLocation(post)}
+                  {this._renderTimeAgo(post)}
+                </div>
 
-              <div className={styles.row_subtext}>
-                {this._renderWantOrHave(post)}
-              </div>
-            </a>
-          )
-        })}
+                <strong>
+                  {post[titleField]}
+                </strong>
 
-        <a href="#"
-          onClick={this._handleLoadMore}
-          className={styles.loadMore}>
-          More
-        </a>
+                <div className="post-meta">
+                  {this._renderWantOrHave(post)}
+                </div>
+              </a>
+            )
+          })}
+
+          <a href="#"
+            onClick={this._handleLoadMore}
+            className="load-more">
+            More
+          </a>
+        </div>
       </div>
     )
   }
 }
-
-let styles = createCSS({
-  container: {
-    margin: '50px 0'
-  },
-  location: {
-    color: 'gray',
-    minWidth: 50,
-    fontSize: 'small',
-  },
-  row_a: {
-    display: 'block',
-    fontWeight: '500',
-    padding: '15px',
-    color: '#222',
-    fontSize: 18,
-    ':hover': {
-      backgroundColor: '#f7f7f7'
-    }
-  },
-  row_subtext: {
-    fontSize: 'small',
-  },
-  text_muted: {
-    color: 'gray',
-  },
-  subtext_span: {
-    marginRight: 15
-  },
-  loadMore: {
-    padding: 15,
-    display: 'block'
-  }
-})

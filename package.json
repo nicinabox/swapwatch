@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "next"
+    "dev": "next",
+    "build:css": "node-sass -r stylesheets/main.scss -o static"
   },
   "keywords": [],
   "author": "Nic Haynes <nic@nicinabox.com> (http://nicinabox.com)",
@@ -16,5 +17,8 @@
     "next": "^1.1.2",
     "normalize.css": "^5.0.0",
     "timeago.js": "^2.0.3"
+  },
+  "devDependencies": {
+    "node-sass": "^3.13.0"
   }
 }
