@@ -5,15 +5,16 @@ import createCSS from '../lib/createCSS'
 export const TABS = [SELLING, BUYING, ARTISAN, GROUP_BUY, INTEREST_CHECK, VENDOR]
 
 export default class Menu extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this._handleSearch = this._handleSearch.bind(this)
     this._handleTabPress = this._handleTabPress.bind(this)
+    this._handleSearchQueryChange = this._handleSearchQueryChange.bind(this)
 
     this.state = {
       selectedTab: 0,
-      query: '',
+      query: props.query,
     }
   }
 
@@ -27,10 +28,18 @@ export default class Menu extends React.Component {
     this.props.onPress(index)
   }
 
-  _handleSearch(e) {
+  _handleSearchQueryChange(e) {
     let { value } = e.target
     this.setState({ query: value })
-    this.props.onSearch(value)
+
+    if (!value) {
+      this.props.onSearch()
+    }
+  }
+
+  _handleSearch(e) {
+    e.preventDefault()
+    this.props.onSearch(this.state.query)
   }
 
   render() {
@@ -52,10 +61,12 @@ export default class Menu extends React.Component {
         </nav>
 
         <div className="search-container">
-          <input type="search"
-            value={this.state.query}
-            onChange={this._handleSearch}
-            placeholder="Search..." />
+          <form onSubmit={this._handleSearch}>
+            <input type="search"
+              value={this.state.query}
+              onChange={this._handleSearchQueryChange}
+              placeholder="Search..." />
+          </form>
         </div>
       </div>
     )

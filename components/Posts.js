@@ -2,7 +2,7 @@ import React from 'react'
 import timeago from 'timeago.js'
 import capitalize from 'lodash/capitalize'
 import createCSS from '../lib/createCSS'
-import { fetchPosts, parsePosts } from '../lib/posts'
+import fetchPosts from '../lib/posts'
 
 const INVERSES = {
   want: 'have',
@@ -16,6 +16,10 @@ const getTitleField = (selectedTab) => {
   return fields[selectedTab] || 'title'
 }
 
+const getHeading = (props) => {
+  return props.query ? 'Search results' : 'New posts'
+}
+
 export default class Posts extends React.Component {
   constructor(props) {
     super()
@@ -23,8 +27,17 @@ export default class Posts extends React.Component {
     this._handleLoadMore = this._handleLoadMore.bind(this)
 
     this.state = {
-      posts: props.posts || []
+      posts: props.posts || [],
+      heading: getHeading(props)
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      posts: nextProps.posts,
+      heading: getHeading(nextProps),
+      isSearching: !!nextProps.query,
+    })
   }
 
   _handleLoadMore(e) {
@@ -42,14 +55,9 @@ export default class Posts extends React.Component {
 
   _getMatchingPosts() {
     let { posts } = this.state
-    let { titleField, query, type } = this.props
+    let { type } = this.props
 
-    return posts
-      .filter(p => p.type === type)
-      .filter(p => {
-        let re = new RegExp(query, 'gi')
-        return re.test(p[titleField]) || re.test(p.location)
-      })
+    return posts.filter(p => p.type === type)
   }
 
   _renderWantOrHave(post) {
@@ -83,32 +91,33 @@ export default class Posts extends React.Component {
     return (
       <div className="posts">
         <div className="container">
-          <p className="text-muted">New posts</p>
+          <p className="text-muted">{this.state.heading}</p>
 
-          {posts.map((post, i) => {
-            return (
-              <a key={i} href={post.url} className="post">
-                <div className="post-meta">
-                  {this._renderLocation(post)}
-                  {this._renderTimeAgo(post)}
-                </div>
+          <div>
+            {posts.map((post, i) => {
+              return (
+                <a key={i} href={post.url} className="post">
+                  <div className="post-meta">
+                    {this._renderLocation(post)}
+                    {this._renderTimeAgo(post)}
+                  </div>
 
-                <strong>
-                  {post[titleField]}
-                </strong>
+                  <strong>
+                    {post[titleField]}
+                  </strong>
 
-                <div className="post-meta">
-                  {this._renderWantOrHave(post)}
-                </div>
-              </a>
-            )
-          })}
-
-          <a href="#"
-            onClick={this._handleLoadMore}
-            className="load-more">
-            More
-          </a>
+                  <div className="post-meta">
+                    {this._renderWantOrHave(post)}
+                  </div>
+                </a>
+              )
+            })}
+            <a href="#"
+              onClick={this._handleLoadMore}
+              className="load-more">
+              More
+            </a>
+          </div>
         </div>
       </div>
     )

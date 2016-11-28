@@ -1,7 +1,8 @@
 import 'glamor/reset'
 import React from 'react'
+import debounce from 'lodash/debounce'
 import createCSS from '../lib/createCSS'
-import { fetchPosts, parsePosts } from '../lib/posts'
+import fetchPosts, { parsePosts } from '../lib/posts'
 import search from '../lib/search'
 import Head from '../components/Head'
 import Menu, { TABS } from '../components/Menu'
@@ -13,23 +14,30 @@ const getTitleField = (selectedTab) => {
 }
 
 export default class App extends React.Component {
-  static async getInitialProps() {
-    return await fetchPosts()
-      .then((posts) => ({ posts }))
+  static async getInitialProps({ query }) {
+    return await Promise.all([fetchPosts(), search(query.q)])
+      .then(([posts, results]) => {
+        return ({
+          posts,
+          results,
+          query: query.q
+        })
+      })
       .catch((err) => {
         console.log(err)
       })
   }
 
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this._handleMenuItemPress = this._handleMenuItemPress.bind(this)
-    this._handleSearch = this._handleSearch.bind(this)
+    this._handleSearch = debounce(this._handleSearch.bind(this), 200)
 
     this.state = {
       selectedTab: 0,
-      query: '',
+      query: props.query,
+      results: props.results,
       titleField: getTitleField(0)
     }
   }
@@ -44,14 +52,21 @@ export default class App extends React.Component {
   _handleSearch(query) {
     this.setState({ query })
 
-    search(query)
-      .then((resp) => parsePosts(resp.data.data.children))
-      .then((posts) => {
-        console.log(posts);
-        this.setState({
-          results: posts
+    if (query) {
+      window.history.pushState('', '', `?q=${query}`)
+
+      search(query)
+        .then((results) => {
+          console.log(results);
+          this.setState({ results })
         })
-      })
+        .catch((err) => {
+          console.log(err);
+        })
+    } else {
+      window.history.pushState('', '', '/')
+      this.setState({ results: null })
+    }
   }
 
   render() {
@@ -60,12 +75,13 @@ export default class App extends React.Component {
         <Head />
 
         <Menu
+          query={this.state.query}
           onPress={this._handleMenuItemPress}
           onSearch={this._handleSearch} />
 
         <Posts
-          posts={this.state.results || this.props.posts}
           query={this.state.query}
+          posts={this.state.results || this.props.posts}
           type={TABS[this.state.selectedTab]}
           titleField={this.state.titleField} />
       </div>
