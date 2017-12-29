@@ -20,7 +20,7 @@ export class Posts extends React.Component {
 
     this.props.getNextPage({
       after: posts[posts.length - 1].name,
-      q: `flair:${tab}`
+      q: tab ? `flair:${tab}` : ''
     })
   }
 
