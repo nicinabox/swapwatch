@@ -50,7 +50,7 @@ export function getNextPage(after, flair) {
       .then((posts) => {
         dispatch({
           type: RECEIVE_NEXT_PAGE,
-          posts
+          posts,
         })
         dispatch(isLoading(false))
       })

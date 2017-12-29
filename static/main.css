@@ -297,9 +297,14 @@ a {
   .posts .load-more {
     padding: 15px;
     display: block;
-    text-align: center; }
+    text-align: center;
+    border-radius: 4px; }
     .posts .load-more:hover {
       background: #eee; }
+    .posts .load-more.load-more-disabled {
+      color: gray; }
+      .posts .load-more.load-more-disabled:hover {
+        background: none; }
   .posts .post-meta {
     font-size: small; }
     .posts .post-meta span {

@@ -6,11 +6,7 @@ import Post from './Post'
 export class Posts extends React.Component {
   constructor(props) {
     super(props)
-
     this._handleLoadMore = this._handleLoadMore.bind(this)
-
-    this.state = {
-    }
   }
 
   _handleLoadMore(e) {
@@ -32,11 +28,18 @@ export class Posts extends React.Component {
               <Post key={post.id} post={post} />
             )
           })}
-          <a href="#"
-            onClick={this._handleLoadMore}
-            className="load-more">
-            More
-          </a>
+
+          {this.props.state.hasNextPage ? (
+            <a href="#"
+              onClick={this._handleLoadMore}
+              className="load-more">
+              More
+            </a>
+          ) : (
+            <span className="load-more load-more-disabled">
+              No more pages
+            </span>
+          )}
         </div>
       </div>
     )

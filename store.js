@@ -14,7 +14,8 @@ import {
 
 const initialState = {
   tab: SELLING,
-  subreddit: 'mechmarket'
+  subreddit: 'mechmarket',
+  hasNextPage: true,
 }
 
 export const reducer = (state = initialState, action) => {
@@ -23,12 +24,14 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         posts: action.posts,
+        hasNextPage: !!action.posts.length,
       }
 
     case RECEIVE_NEXT_PAGE:
       return {
         ...state,
         posts: state.posts.concat(action.posts),
+        hasNextPage: !!action.posts.length,
       }
 
     case LOADING:

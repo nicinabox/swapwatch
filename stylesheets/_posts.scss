@@ -38,9 +38,18 @@
     padding: 15px;
     display: block;
     text-align: center;
+    border-radius: $border-radius;
 
     &:hover {
       background: #eee;
+    }
+
+    &.load-more-disabled {
+      color: gray;
+
+      &:hover {
+        background: none;
+      }
     }
   }
 
