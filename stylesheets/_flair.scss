@@ -1,0 +1,17 @@
+@each $name, $value in $flair {
+  .#{$name}-text {
+    color: $value;
+  }
+
+  .#{$name}-bg {
+    background: $value;
+  }
+
+  a.#{$name}-bg {
+    color: white;
+
+    &:hover {
+      background: darken($value, 10%);
+    }
+  }
+}

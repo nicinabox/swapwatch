@@ -1,0 +1,13 @@
+.header {
+  .logo {
+    color: #ccc;
+    font-weight: bold;
+    font-size: 22px;
+    padding: 10px;
+    display: inline-block;
+
+    &:hover {
+      color: $brand-primary;
+    }
+  }
+}

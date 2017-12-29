@@ -10,7 +10,9 @@ import { getPosts, search, setActiveTab } from '../actions'
 import tabs from '../lib/filters'
 
 import Head from '../components/Head'
+import Header from '../components/Header'
 import Menu from '../components/Menu'
+import Search from '../components/Search'
 import Posts from '../components/Posts'
 
 const TAB_NAMES = Object.keys(tabs)
@@ -42,15 +44,37 @@ export class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id="root">
         <Head />
 
-        <Menu
-          currentPath={this.props.currentPath}
-          query={this.props.query.q}
-        />
+        <Header />
 
-        <Posts />
+        <div id="main" className="container">
+          <div className="row">
+            <div className="flex-1">
+              <Menu currentPath={this.props.currentPath} />
+            </div>
+
+            <div className="flex-3">
+              <h2>
+                <strong>
+                  {this.props.state.tab || 'All'}
+                </strong>
+              </h2>
+
+              <Search
+                query={this.props.query.q}
+                currentPath={this.props.currentPath}
+              />
+
+              <Posts />
+            </div>
+
+            <div className="flex-1">
+              <h3>Watch</h3>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }

@@ -29,29 +29,17 @@ export class Posts extends React.Component {
 
     return (
       <div className="posts">
-        <div className="container">
-          <h3>
-            <strong>{this.props.state.tab || 'All'}</strong>
-
-            {isLoading && (
-              <small className="text-muted pull-right">
-                Loading...
-              </small>
-            )}
-          </h3>
-
-          <div style={isLoading ? { opacity: 0.6 } : {}}>
-            {posts.map((post) => {
-              return (
-                <Post key={post.id} post={post} />
-              )
-            })}
-            <a href="#"
-              onClick={this._handleLoadMore}
-              className="load-more">
-              More
-            </a>
-          </div>
+        <div style={isLoading ? { opacity: 0.6 } : {}}>
+          {posts.map((post) => {
+            return (
+              <Post key={post.id} post={post} />
+            )
+          })}
+          <a href="#"
+            onClick={this._handleLoadMore}
+            className="load-more">
+            More
+          </a>
         </div>
       </div>
     )

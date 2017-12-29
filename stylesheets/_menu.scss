@@ -1,43 +1,17 @@
 .menu {
-  @include clearfix;
-  border-bottom: 1px solid #ddd;
-  background-color: #fff;
-  width: 100%;
-  position: fixed;
-  z-index: 10;
-  top: 0;
-  left: 0;
+  margin-top: 78px;
 
-  nav {
-    float: left;
+  a {
+    display: block;
+    padding: 6px 15px 10px;
+    border-radius: 3px;
+    margin-bottom: 2px;
 
-    a {
-      display: inline-block;
-      padding: 10px;
-
-      &.active {
-        padding-bottom: 8px;
-        border-bottom: 2px solid $brand-primary;
-      }
+    &:not(.active):hover {
+      background: #eee;
     }
-  }
 
-  .search-container {
-    float: right;
-    width: 30%;
-
-    input {
-      width: 100%;
-      padding: 14px 10px;
-      font-size: 15px;
-      border: none;
-      border-left: 1px solid #ddd;
-      background: #fafafa;
-      outline: none;
-
-      &:focus {
-        background: #fff;
-      }
+    &.active {
     }
   }
 }

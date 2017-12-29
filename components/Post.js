@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import timeago from 'timeago.js'
 import startCase from 'lodash/startCase'
+import kebabCase from 'lodash/kebabCase'
 
 export default class Post extends Component {
   constructor(props) {
@@ -37,7 +38,11 @@ export default class Post extends Component {
 
   _renderFlair() {
     return (
-      <span className="text-muted pull-right">
+      <span
+        className={[
+          `${kebabCase(this.props.post.type)}-text`,
+          'pull-right'
+        ].join(' ')}>
         {startCase(this.props.post.type)}
       </span>
     )
