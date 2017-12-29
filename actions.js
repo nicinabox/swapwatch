@@ -1,5 +1,6 @@
 import Router from 'next/router'
 import fetchPosts from './lib/posts'
+import toQuery from './lib/toQuery'
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const RECEIVE_NEXT_PAGE = 'RECEIVE_NEXT_PAGE'
@@ -34,20 +35,21 @@ export function isLoading(bool) {
 }
 
 export function getPosts(flair) {
-  const q = flair ? `flair:${JSON.stringify(flair)}` : null
-  return search(q)
+  return search(flair)
 }
 
-export function getNextPage(params) {
+export function getNextPage(after, flair) {
   return (dispatch, getState) => {
     dispatch(isLoading(true))
     const { subreddit } = getState()
 
-    return fetchPosts(subreddit, params)
+    return fetchPosts(subreddit, {
+      after,
+      q: toQuery(flair)
+    })
       .then((posts) => {
         dispatch({
           type: RECEIVE_NEXT_PAGE,
-          query: params.query,
           posts
         })
         dispatch(isLoading(false))
@@ -56,16 +58,15 @@ export function getNextPage(params) {
   }
 }
 
-export function search(q) {
+export function search(flair, query) {
   return (dispatch, getState) => {
     dispatch(isLoading(true))
     const { subreddit } = getState()
 
-    return fetchPosts(subreddit, { q })
+    return fetchPosts(subreddit, { q: toQuery(flair, query) })
       .then((posts) => {
         dispatch({
           type: RECEIVE_POSTS,
-          query: q,
           posts,
         })
         dispatch(isLoading(false))
@@ -75,12 +76,8 @@ export function search(q) {
 }
 
 export function changeSubreddit(subreddit) {
-  return (dispatch) => {
-    dispatch({
-      type: CHANGE_SUBREDDIT,
-      subreddit
-    })
-
-    dispatch(getPosts())
+  return {
+    type: CHANGE_SUBREDDIT,
+    subreddit
   }
 }

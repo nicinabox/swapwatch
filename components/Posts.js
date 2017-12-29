@@ -18,10 +18,7 @@ export class Posts extends React.Component {
 
     const { posts, tab } = this.props.state
 
-    this.props.getNextPage({
-      after: posts[posts.length - 1].name,
-      q: tab ? `flair:${tab}` : ''
-    })
+    this.props.getNextPage(posts[posts.length - 1].name, tab)
   }
 
   render() {

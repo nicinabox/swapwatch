@@ -32,11 +32,14 @@ export class App extends React.Component {
     query = !isEmpty(query) ? query : qs.parse(params)
 
     store.dispatch(receiveSearchQuery(query.q))
-    store.dispatch(changeSubreddit(subreddit))
+
+    if (subreddit !== store.getState().subreddit) {
+      store.dispatch(changeSubreddit(subreddit))
+    }
 
     if (query.q) {
       store.dispatch(setActiveTab(`Searching ${tab}`))
-      await store.dispatch(search(`${query.q} flair:${JSON.stringify(tab)}`))
+      await store.dispatch(search(tab, query.q))
     } else {
       store.dispatch(setActiveTab(tab))
       await store.dispatch(getPosts(tab))

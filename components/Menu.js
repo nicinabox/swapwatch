@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import Router from 'next/router'
 import kebabCase from 'lodash/kebabCase'
 import * as filters from '../lib/filters'
-import { changeSubreddit } from '../actions'
 
 export class Menu extends React.Component {
   constructor(props) {
@@ -50,6 +49,4 @@ export class Menu extends React.Component {
 export default connect((state) => ({
   state,
   tabs: filters[state.subreddit]
-}), {
-  changeSubreddit
-})(Menu)
+}))(Menu)
