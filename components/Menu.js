@@ -23,7 +23,10 @@ export class Menu extends React.Component {
       <div className="menu">
         <nav>
           {Object.keys(this.props.tabs).map((tab) => {
-            const path = this.props.tabs[tab]
+            const path = '/' + [
+              this.props.state.subreddit,
+              this.props.tabs[tab]
+            ].filter(f => f).join('/')
 
             return (
               <a
@@ -31,7 +34,7 @@ export class Menu extends React.Component {
                 href={path}
                 onClick={this._handleLinkClick}
                 className={[
-                  currentPath === path ? `${kebabCase(tab)}-bg active` : null,
+                  currentPath === path ? `active active-${kebabCase(tab)}` : null,
                   `${kebabCase(tab)}-text`,
                 ].join(' ')}>
                 {tab}
@@ -40,22 +43,19 @@ export class Menu extends React.Component {
           })}
         </nav>
 
-        <form>
-          {['mechmarket', 'hardwareswap'].map((subreddit) => {
+        <nav>
+          {Object.keys(filters).map((subreddit) => {
             return (
-              <label key={subreddit}>
-                <input
-                  type="radio"
-                  name="subreddit"
-                  value={subreddit}
-                  onChange={() => this.props.changeSubreddit(subreddit)}
-                  checked={subreddit === this.props.state.subreddit}
-                />
+              <a
+                key={subreddit}
+                href={`/${subreddit}`}
+                onClick={this._handleLinkClick}
+                className={subreddit === this.props.state.subreddit ? 'active' : ''}>
                 r/{subreddit}
-              </label>
+              </a>
             )
           })}
-        </form>
+        </nav>
       </div>
     )
   }

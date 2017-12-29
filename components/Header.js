@@ -7,7 +7,7 @@ export class Header extends React.Component {
       <div className="header">
         <div className="row">
           <div className="flex-1">
-            <a href="/" className="logo">
+            <a href={`/${this.props.state.subreddit}`} className="logo">
               SwapWatch
             </a>
           </div>

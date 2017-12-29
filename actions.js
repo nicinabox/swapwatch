@@ -82,7 +82,5 @@ export function changeSubreddit(subreddit) {
     })
 
     dispatch(getPosts())
-
-    Router.push('/')
   }
 }

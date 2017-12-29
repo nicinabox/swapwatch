@@ -10,15 +10,8 @@ const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
-const paths =[
-  '/',
-  '/selling',
-  '/buying',
-  '/trading',
-  '/artisan',
-  '/group-buy',
-  '/interest-check',
-  '/vendor',
+const redirects = [
+  { from: '/', to: '/mechmarket' },
 ]
 
 app.prepare().then(() => {
@@ -28,7 +21,16 @@ app.prepare().then(() => {
     const parsedUrl = parse(req.url, true)
     const { pathname, query } = parsedUrl
 
-    if (paths.includes(pathname)) {
+    redirects.forEach(({ from, to, type = 301 }) => {
+      if (pathname === from) {
+        res.writeHead(type, {
+          'Location': to
+        })
+        res.end()
+      }
+    })
+
+    if (pathname !== '/') {
       app.render(req, res, '/', query)
     } else {
       handle(req, res, parsedUrl)

@@ -3,10 +3,17 @@ import debounce from 'lodash/debounce'
 import startCase from 'lodash/startCase'
 import isEmpty from 'lodash/isEmpty'
 import withRedux from 'next-redux-wrapper'
+import pathToRegexp from 'path-to-regexp'
 import qs from 'qs'
 import { bindActionCreators } from 'redux'
 import { initStore } from '../store'
-import { getPosts, search, setActiveTab, receiveSearchQuery } from '../actions'
+import {
+  getPosts,
+  search,
+  setActiveTab,
+  receiveSearchQuery,
+  changeSubreddit
+} from '../actions'
 
 import Head from '../components/Head'
 import Header from '../components/Header'
@@ -14,14 +21,18 @@ import Menu from '../components/Menu'
 import Search from '../components/Search'
 import Posts from '../components/Posts'
 
+const route = pathToRegexp('/:subreddit/:filter?')
+
 export class App extends React.Component {
   static async getInitialProps({ store, query, asPath }) {
     let [pathname, params] = asPath.split('?')
-    const tab = startCase(pathname.replace('/', ''))
+    let [, subreddit, filter] = route.exec(pathname)
+    let tab = startCase(filter)
 
     query = !isEmpty(query) ? query : qs.parse(params)
 
     store.dispatch(receiveSearchQuery(query.q))
+    store.dispatch(changeSubreddit(subreddit))
 
     if (query.q) {
       store.dispatch(setActiveTab(`Searching ${tab}`))
