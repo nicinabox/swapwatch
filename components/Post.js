@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import timeago from 'timeago.js'
 import startCase from 'lodash/startCase'
 import kebabCase from 'lodash/kebabCase'
+import ImgurEmbed from './ImgurEmbed'
 
 export default class Post extends Component {
   constructor(props) {
@@ -56,6 +57,14 @@ export default class Post extends Component {
     )
   }
 
+  _renderImages() {
+    if (!this.props.post.timestamp_url) return
+
+    return (
+      <ImgurEmbed url={this.props.post.timestamp_url} />
+    )
+  }
+
   render() {
     const { post } = this.props
 
@@ -74,6 +83,8 @@ export default class Post extends Component {
         <strong>
           {this.state.title}
         </strong>
+
+        {this._renderImages()}
 
         {this.state.details && (
           <div className="post-meta">
