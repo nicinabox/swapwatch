@@ -1,112 +1,118 @@
 .all-text {
-  color: #1F87FF; }
+  color: #001f3f; }
 
 .all-bg {
-  background: #1F87FF; }
+  background: #001f3f; }
 
 a.all-bg {
   color: white; }
   a.all-bg:hover {
-    background: #006deb; }
+    background: #00060c; }
 
 .selling-text {
-  color: #5a92fa; }
+  color: #0074D9; }
 
 .selling-bg {
-  background: #5a92fa; }
+  background: #0074D9; }
 
 a.selling-bg {
   color: white; }
   a.selling-bg:hover {
-    background: #2971f9; }
+    background: #0059a6; }
 
 .buying-text {
-  color: #f5b400; }
+  color: #F012BE; }
 
 .buying-bg {
-  background: #f5b400; }
+  background: #F012BE; }
 
 a.buying-bg {
   color: white; }
   a.buying-bg:hover {
-    background: #c28f00; }
+    background: #c30c9a; }
 
 .trading-text {
-  color: #9f46f2; }
+  color: #B10DC9; }
 
 .trading-bg {
-  background: #9f46f2; }
+  background: #B10DC9; }
 
 a.trading-bg {
   color: white; }
   a.trading-bg:hover {
-    background: #8616ef; }
+    background: #870a99; }
 
 .group-buy-text {
-  color: #669998; }
+  color: #39CCCC; }
 
 .group-buy-bg {
-  background: #669998; }
+  background: #39CCCC; }
 
 a.group-buy-bg {
   color: white; }
   a.group-buy-bg:hover {
-    background: #527a7a; }
+    background: #2ba7a7; }
 
 .vendor-text {
-  color: #ff841c; }
+  color: #FF851B; }
 
 .vendor-bg {
-  background: #ff841c; }
+  background: #FF851B; }
 
 a.vendor-bg {
   color: white; }
   a.vendor-bg:hover {
-    background: #e86a00; }
+    background: #e76b00; }
 
 .interest-check-text {
-  color: #ba6251; }
+  color: #FF4136; }
 
 .interest-check-bg {
-  background: #ba6251; }
+  background: #FF4136; }
 
 a.interest-check-bg {
   color: white; }
   a.interest-check-bg:hover {
-    background: #9b4c3d; }
+    background: #ff1103; }
 
 .artisan-text {
-  color: #aca13f; }
+  color: #7FDBFF; }
 
 .artisan-bg {
-  background: #aca13f; }
+  background: #7FDBFF; }
 
 a.artisan-bg {
   color: white; }
   a.artisan-bg:hover {
-    background: #877e31; }
+    background: #4ccdff; }
 
 .meta-text {
-  color: #65b354; }
+  color: #2ECC40; }
 
 .meta-bg {
-  background: #65b354; }
+  background: #2ECC40; }
 
 a.meta-bg {
   color: white; }
   a.meta-bg:hover {
-    background: #509341; }
+    background: #25a233; }
 
 body {
   line-height: 1.6;
   font-family: Lato, Helvetica Neue;
   background: #f7f7f7;
-  margin: 0;
-  border-top: 2px solid #1F87FF; }
+  margin: 0; }
 
 a {
-  color: #1F87FF;
+  color: #001f3f;
   text-decoration: none; }
+
+.top-bar {
+  height: 2px;
+  background: #001f3f;
+  background-image: linear-gradient(to right, #001f3f, #0074D9, #F012BE, #B10DC9, #39CCCC, #FF851B, #FF4136, #7FDBFF, #2ECC40);
+  position: sticky;
+  top: 0; }
 
 #main {
   margin-top: 50px;
@@ -149,14 +155,14 @@ a {
   padding: 10px;
   display: inline-block; }
   .header .logo:hover {
-    color: #1F87FF; }
+    color: #001f3f; }
 
 .menu {
   margin-top: 78px; }
   .menu a {
     display: block;
     padding: 6px 15px 10px;
-    border-radius: 3px;
+    border-radius: 4px;
     margin-bottom: 2px; }
     .menu a:not(.active):hover {
       background: #eee; }
@@ -168,11 +174,14 @@ a {
     padding: 12px 15px;
     font-size: 17px;
     border: none;
-    background: #dfdfdf;
+    background-color: #dfdfdf;
     border-radius: 4px;
-    outline: none; }
+    outline: none;
+    transition: background-color 200ms ease-out; }
+    .search-container input:hover {
+      background-color: #d6d6d6; }
     .search-container input:focus {
-      background: #fff; }
+      background-color: #fff; }
 
 .posts {
   transition: opacity 150ms ease-in-out;
@@ -190,11 +199,29 @@ a {
     margin-bottom: 25px;
     box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
     transition: all 100ms ease-in-out;
-    border-radius: 3px;
+    border-radius: 4px;
     border: 2px solid transparent; }
     .posts .post:hover {
-      border-color: #1F87FF;
+      border-color: #001f3f;
       box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.15); }
+    .posts .post.type-all:hover {
+      border-color: #001f3f; }
+    .posts .post.type-selling:hover {
+      border-color: #0074D9; }
+    .posts .post.type-buying:hover {
+      border-color: #F012BE; }
+    .posts .post.type-trading:hover {
+      border-color: #B10DC9; }
+    .posts .post.type-group-buy:hover {
+      border-color: #39CCCC; }
+    .posts .post.type-vendor:hover {
+      border-color: #FF851B; }
+    .posts .post.type-interest-check:hover {
+      border-color: #FF4136; }
+    .posts .post.type-artisan:hover {
+      border-color: #7FDBFF; }
+    .posts .post.type-meta:hover {
+      border-color: #2ECC40; }
   .posts .load-more {
     padding: 15px;
     display: block;

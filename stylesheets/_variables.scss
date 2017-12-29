@@ -1,13 +1,14 @@
-$brand-primary: #1F87FF;
+$brand-primary: #001f3f;
+$border-radius: 4px;
 
 $flair: (
   all: $brand-primary,
-  selling: #5a92fa,
-  buying: #f5b400,
-  trading: #9f46f2,
-  group-buy: #669998,
-  vendor: #ff841c,
-  interest-check: #ba6251,
-  artisan: #aca13f,
-  meta: #65b354
+  selling: #0074D9,
+  buying: #F012BE,
+  trading: #B10DC9,
+  group-buy: #39CCCC,
+  vendor: #FF851B,
+  interest-check: #FF4136,
+  artisan: #7FDBFF,
+  meta: #2ECC40
 )

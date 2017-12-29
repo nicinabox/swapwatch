@@ -3,12 +3,19 @@ body {
   font-family: Lato, Helvetica Neue;
   background: #f7f7f7;
   margin: 0;
-  border-top: 2px solid $brand-primary;
 }
 
 a {
   color: $brand-primary;
   text-decoration: none;
+}
+
+.top-bar {
+  height: 2px;
+  background: $brand-primary;
+  background-image: linear-gradient(to right, map-values($flair));
+  position: sticky;
+  top: 0;
 }
 
 #main {

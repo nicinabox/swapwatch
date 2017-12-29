@@ -17,12 +17,20 @@
     margin-bottom: 25px;
     box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
     transition: all 100ms ease-in-out;
-    border-radius: 3px;
+    border-radius: $border-radius;
     border: 2px solid transparent;
 
     &:hover {
       border-color: $brand-primary;
       box-shadow: 0 2px 20px 0 rgba(0,0,0, 0.15);
+    }
+
+    @each $name, $value in $flair {
+      &.type-#{$name} {
+        &:hover {
+          border-color: $value;
+        }
+      }
     }
   }
 

@@ -60,10 +60,14 @@ export default class Post extends Component {
     const { post } = this.props
 
     return (
-      <a href={post.url} className="post">
+      <a href={post.url} className={[
+        'post',
+        `type-${kebabCase(post.type)}`
+      ].join(' ')}>
         <div className="post-meta">
           {this._renderLocation()}
           {this._renderTimeAgo()}
+          {this._renderAuthor()}
           {this._renderFlair()}
         </div>
 

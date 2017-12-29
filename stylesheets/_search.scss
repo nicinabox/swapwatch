@@ -6,12 +6,17 @@
     padding: 12px 15px;
     font-size: 17px;
     border: none;
-    background: #dfdfdf;
-    border-radius: 4px;
+    background-color: #dfdfdf;
+    border-radius: $border-radius;
     outline: none;
+    transition: background-color 200ms ease-out;
+
+    &:hover {
+      background-color: #d6d6d6;
+    }
 
     &:focus {
-      background: #fff;
+      background-color: #fff;
     }
   }
 }

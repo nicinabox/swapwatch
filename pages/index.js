@@ -48,6 +48,8 @@ export class App extends React.Component {
       <div id="root">
         <Head />
 
+        <div className="top-bar"></div>
+
         <Header />
 
         <div id="main" className="container">
@@ -71,7 +73,7 @@ export class App extends React.Component {
             </div>
 
             <div className="flex-1">
-              <h3>Watch</h3>
+
             </div>
           </div>
         </div>
