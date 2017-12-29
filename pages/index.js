@@ -1,17 +1,11 @@
-import 'glamor/reset'
 import React from 'react'
 import debounce from 'lodash/debounce'
-import createCSS from '../lib/createCSS'
-import fetchPosts, { parsePosts } from '../lib/posts'
+import startCase from 'lodash/startCase'
+import fetchPosts from '../lib/posts'
 import search from '../lib/search'
 import Head from '../components/Head'
 import Menu, { TABS } from '../components/Menu'
 import Posts from '../components/Posts'
-
-const getTitleField = (selectedTab) => {
-  let fields = ['have', 'want']
-  return fields[selectedTab] || 'title'
-}
 
 export default class App extends React.Component {
   static async getInitialProps({ query }) {
@@ -38,14 +32,23 @@ export default class App extends React.Component {
       selectedTab: 0,
       query: props.query,
       results: props.results,
-      titleField: getTitleField(0)
     }
   }
 
   _handleMenuItemPress(index) {
     this.setState({
       selectedTab: index,
-      titleField: getTitleField(index)
+    })
+
+    let flair = startCase(TABS[index])
+
+    fetchPosts({
+      q: `flair:"${flair}"`
+    })
+    .then((posts) => {
+      this.setState({
+        results: posts
+      })
     })
   }
 
@@ -82,8 +85,7 @@ export default class App extends React.Component {
         <Posts
           query={this.state.query}
           posts={this.state.results || this.props.posts}
-          type={TABS[this.state.selectedTab]}
-          titleField={this.state.titleField} />
+          type={TABS[this.state.selectedTab]} />
       </div>
     )
   }

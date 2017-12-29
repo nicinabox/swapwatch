@@ -12,13 +12,16 @@
   "author": "Nic Haynes <nic@nicinabox.com> (http://nicinabox.com)",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.15.2",
+    "axios": "^0.17.1",
     "lodash": "^4.17.2",
-    "next": "^1.1.2",
-    "normalize.css": "^5.0.0",
-    "timeago.js": "^2.0.3"
+    "next": "^4.2.1",
+    "normalize.css": "^7.0.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "swap-parser": "file:///Users/nic/code/swap-parser",
+    "timeago.js": "^3.0.2"
   },
   "devDependencies": {
-    "node-sass": "^3.13.0"
+    "node-sass": "^4.7.2"
   }
 }

@@ -1,6 +1,5 @@
 import React from 'react'
 import { SELLING, BUYING, ARTISAN, GROUP_BUY, INTEREST_CHECK, VENDOR } from '../lib/posts'
-import createCSS from '../lib/createCSS'
 
 export const TABS = [SELLING, BUYING, ARTISAN, GROUP_BUY, INTEREST_CHECK, VENDOR]
 

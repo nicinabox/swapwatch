@@ -1,7 +1,6 @@
 import React from 'react'
 import timeago from 'timeago.js'
 import capitalize from 'lodash/capitalize'
-import createCSS from '../lib/createCSS'
 import fetchPosts from '../lib/posts'
 
 const INVERSES = {
@@ -10,11 +9,6 @@ const INVERSES = {
 }
 
 const inverse = (field) => INVERSES[field]
-
-const getTitleField = (selectedTab) => {
-  let fields = ['have', 'want']
-  return fields[selectedTab] || 'title'
-}
 
 const getHeading = (props) => {
   return props.query ? 'Search results' : 'New posts'
@@ -27,14 +21,12 @@ export default class Posts extends React.Component {
     this._handleLoadMore = this._handleLoadMore.bind(this)
 
     this.state = {
-      posts: props.posts || [],
       heading: getHeading(props)
     }
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      posts: nextProps.posts,
       heading: getHeading(nextProps),
       isSearching: !!nextProps.query,
     })
@@ -53,13 +45,6 @@ export default class Posts extends React.Component {
       })
   }
 
-  _getMatchingPosts() {
-    let { posts } = this.state
-    let { type } = this.props
-
-    return posts.filter(p => p.type === type)
-  }
-
   _renderWantOrHave(post) {
     let field = inverse(this.props.titleField)
 
@@ -71,8 +56,9 @@ export default class Posts extends React.Component {
   }
 
   _renderLocation(post) {
-    return post.location && (
-      <span>{post.location}</span>
+    const location = [post.zone, post.region].filter(f => f).join('-')
+    return location && (
+      <span>{location}</span>
     )
   }
 
@@ -84,9 +70,20 @@ export default class Posts extends React.Component {
     )
   }
 
+  _renderTitle(post) {
+    if (post.type === 'selling') {
+      return post.have
+    }
+
+    if (post.type === 'buying') {
+      return post.want
+    }
+
+    return post[post.type]
+  }
+
   render() {
-    let { titleField } = this.props
-    let posts = this._getMatchingPosts()
+    let { posts } = this.props
 
     return (
       <div className="posts">
@@ -94,16 +91,16 @@ export default class Posts extends React.Component {
           <p className="text-muted">{this.state.heading}</p>
 
           <div>
-            {posts.map((post, i) => {
+            {posts.map((post) => {
               return (
-                <a key={i} href={post.url} className="post">
+                <a key={post.id} href={post.url} className="post">
                   <div className="post-meta">
                     {this._renderLocation(post)}
                     {this._renderTimeAgo(post)}
                   </div>
 
                   <strong>
-                    {post[titleField]}
+                    {this._renderTitle(post)}
                   </strong>
 
                   <div className="post-meta">
