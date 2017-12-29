@@ -1,9 +1,11 @@
+import Router from 'next/router'
 import fetchPosts from './lib/posts'
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const RECEIVE_NEXT_PAGE = 'RECEIVE_NEXT_PAGE'
 export const SET_ACTIVE_TAB = 'SET_ACTIVE_TAB'
 export const RECEIVE_SEARCH_QUERY = 'RECEIVE_SEARCH_QUERY'
+export const CHANGE_SUBREDDIT = 'CHANGE_SUBREDDIT'
 export const LOADING = 'LOADING'
 
 const handleError = (err) => {
@@ -37,10 +39,11 @@ export function getPosts(flair) {
 }
 
 export function getNextPage(params) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(isLoading(true))
+    const { subreddit } = getState()
 
-    return fetchPosts(params)
+    return fetchPosts(subreddit, params)
       .then((posts) => {
         dispatch({
           type: RECEIVE_NEXT_PAGE,
@@ -54,10 +57,11 @@ export function getNextPage(params) {
 }
 
 export function search(q) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(isLoading(true))
+    const { subreddit } = getState()
 
-    return fetchPosts({ q })
+    return fetchPosts(subreddit, { q })
       .then((posts) => {
         dispatch({
           type: RECEIVE_POSTS,
@@ -67,5 +71,18 @@ export function search(q) {
         dispatch(isLoading(false))
       })
       .catch(handleError)
+  }
+}
+
+export function changeSubreddit(subreddit) {
+  return (dispatch) => {
+    dispatch({
+      type: CHANGE_SUBREDDIT,
+      subreddit
+    })
+
+    dispatch(getPosts())
+
+    Router.push('/')
   }
 }

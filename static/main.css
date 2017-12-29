@@ -1,3 +1,49 @@
+.flex-1, .flex-2, .flex-3, .flex-4, .flex-5, .flex-6 {
+  margin-left: 15px;
+  margin-right: 15px; }
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto; }
+
+.row {
+  display: flex;
+  flex-direction: row; }
+
+.flex-1 {
+  flex: 1; }
+
+.flex-2 {
+  flex: 2; }
+
+.flex-3 {
+  flex: 3; }
+
+.flex-4 {
+  flex: 4; }
+
+.flex-5 {
+  flex: 5; }
+
+.flex-6 {
+  flex: 6; }
+
+.align-center {
+  align-items: center; }
+
+input, select {
+  width: 100%;
+  margin: 0; }
+
+label {
+  display: block;
+  font-weight: bold;
+  padding: 3px 0; }
+
+label input {
+  width: auto;
+  margin-right: 6px; }
+
 .all-text {
   color: #001f3f; }
 
@@ -118,27 +164,6 @@ a {
   margin-top: 50px;
   margin-bottom: 30px; }
 
-.container {
-  max-width: 1400px;
-  margin: 0 auto; }
-
-.row {
-  display: flex;
-  flex-direction: row; }
-
-.flex-1, .flex-2, .flex-3 {
-  margin-left: 15px;
-  margin-right: 15px; }
-
-.flex-1 {
-  flex: 1; }
-
-.flex-2 {
-  flex: 2; }
-
-.flex-3 {
-  flex: 3; }
-
 .text-muted {
   color: gray; }
 
@@ -148,17 +173,21 @@ a {
 .pull-left {
   float: left; }
 
-.header .logo {
-  color: #ccc;
-  font-weight: bold;
-  font-size: 22px;
-  padding: 10px;
-  display: inline-block; }
-  .header .logo:hover {
-    color: #001f3f; }
+.header {
+  padding: 10px 15px; }
+  .header .logo {
+    color: #ccc;
+    font-weight: bold;
+    font-size: 22px;
+    padding: 5px;
+    display: inline-block; }
+    .header .logo:hover {
+      color: #001f3f; }
 
 .menu {
   margin-top: 78px; }
+  .menu nav {
+    margin-bottom: 30px; }
   .menu a {
     display: block;
     padding: 6px 15px 10px;

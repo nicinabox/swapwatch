@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Search from './Search'
 
 export class Header extends React.Component {
   render() {
@@ -9,7 +8,7 @@ export class Header extends React.Component {
         <div className="row">
           <div className="flex-1">
             <a href="/" className="logo">
-              Mechwatch
+              SwapWatch
             </a>
           </div>
         </div>

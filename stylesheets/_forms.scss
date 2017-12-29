@@ -1,0 +1,15 @@
+input, select {
+  width: 100%;
+  margin: 0;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  padding: 3px 0;
+}
+
+label input {
+  width: auto;
+  margin-right: 6px;
+}

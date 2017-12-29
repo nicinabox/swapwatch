@@ -1,6 +1,10 @@
 .menu {
   margin-top: 78px;
 
+  nav {
+    margin-bottom: 30px;
+  }
+
   a {
     display: block;
     padding: 6px 15px 10px;
@@ -9,9 +13,6 @@
 
     &:not(.active):hover {
       background: #eee;
-    }
-
-    &.active {
     }
   }
 }

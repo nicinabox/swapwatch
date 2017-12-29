@@ -7,15 +7,12 @@ import qs from 'qs'
 import { bindActionCreators } from 'redux'
 import { initStore } from '../store'
 import { getPosts, search, setActiveTab, receiveSearchQuery } from '../actions'
-import tabs from '../lib/filters'
 
 import Head from '../components/Head'
 import Header from '../components/Header'
 import Menu from '../components/Menu'
 import Search from '../components/Search'
 import Posts from '../components/Posts'
-
-const TAB_NAMES = Object.keys(tabs)
 
 export class App extends React.Component {
   static async getInitialProps({ store, query, asPath }) {
@@ -90,4 +87,6 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default withRedux(initStore, (state) => ({state}), mapDispatchToProps)(App)
+export default withRedux(initStore, (state) => ({
+  state
+}), mapDispatchToProps)(App)

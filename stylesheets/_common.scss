@@ -23,36 +23,6 @@ a {
   margin-bottom: 30px;
 }
 
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.row {
-  display: flex;
-  flex-direction: row;
-}
-
-%flex {
-  margin-left: 15px;
-  margin-right: 15px;
-}
-
-.flex-1 {
-  @extend %flex;
-  flex: 1;
-}
-
-.flex-2 {
-  @extend %flex;
-  flex: 2;
-}
-
-.flex-3 {
-  @extend %flex;
-  flex: 3;
-}
-
 .text-muted {
   color: gray;
 }

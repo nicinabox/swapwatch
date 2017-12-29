@@ -8,11 +8,13 @@ import {
   RECEIVE_NEXT_PAGE,
   SET_ACTIVE_TAB,
   RECEIVE_SEARCH_QUERY,
+  CHANGE_SUBREDDIT,
   LOADING,
 } from './actions'
 
 const initialState = {
-  tab: SELLING
+  tab: SELLING,
+  subreddit: 'mechmarket'
 }
 
 export const reducer = (state = initialState, action) => {
@@ -45,6 +47,12 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         tab: action.tab
+      }
+
+    case CHANGE_SUBREDDIT:
+      return {
+        ...state,
+        subreddit: action.subreddit
       }
 
     default:
