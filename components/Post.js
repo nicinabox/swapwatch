@@ -36,6 +36,14 @@ export default class Post extends Component {
     )
   }
 
+  _renderAuthor() {
+    return (
+      <span className="text-muted">
+        {this.props.post.author} ({this.props.post.author_trades} trades)
+      </span>
+    )
+  }
+
   _renderFlair() {
     return (
       <span
