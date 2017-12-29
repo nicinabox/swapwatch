@@ -79,8 +79,6 @@ export class App extends React.Component {
 
               <Posts />
             </div>
-
-
           </div>
         </div>
       </div>
