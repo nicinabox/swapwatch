@@ -6,7 +6,7 @@ import withRedux from 'next-redux-wrapper'
 import qs from 'qs'
 import { bindActionCreators } from 'redux'
 import { initStore } from '../store'
-import { getPosts, search, setActiveTab } from '../actions'
+import { getPosts, search, setActiveTab, receiveSearchQuery } from '../actions'
 import tabs from '../lib/filters'
 
 import Head from '../components/Head'
@@ -24,16 +24,17 @@ export class App extends React.Component {
 
     query = !isEmpty(query) ? query : qs.parse(params)
 
+    store.dispatch(receiveSearchQuery(query.q))
+
     if (query.q) {
+      store.dispatch(setActiveTab(`Searching ${tab}`))
       await store.dispatch(search(`${query.q} flair:${JSON.stringify(tab)}`))
-      store.dispatch(setActiveTab('Search'))
     } else {
       store.dispatch(setActiveTab(tab))
       await store.dispatch(getPosts(tab))
     }
 
     return {
-      query,
       currentPath: pathname,
     }
   }
@@ -63,7 +64,6 @@ export class App extends React.Component {
               </h2>
 
               <Search
-                query={this.props.query.q}
                 currentPath={this.props.currentPath}
               />
 

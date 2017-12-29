@@ -11,21 +11,21 @@ export class Search extends Component {
     this._handleSearchQueryChange = this._handleSearchQueryChange.bind(this)
 
     this.state = {
-      query: props.query || '',
+      value: props.state.searchQuery || '',
       prevPath: props.currentPath,
     }
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      query: nextProps.query || '',
+      value: nextProps.state.searchQuery || '',
       prevPath: nextProps.currentPath,
     })
   }
 
   _handleSearchQueryChange(e) {
     let { value } = e.target
-    this.setState({ query: value })
+    this.setState({ value })
 
     if (!value) {
       Router.push('/', this.state.prevPath)
@@ -36,11 +36,11 @@ export class Search extends Component {
   _handleSearch(e) {
     e.preventDefault()
 
-    const { query } = this.state
+    const { value } = this.state
 
-    if (query) {
+    if (value) {
       this.setState({ prevPath: this.props.currentPath })
-      Router.push('/', `${this.props.currentPath}?q=${query}`)
+      Router.push('/', `${this.props.currentPath}?q=${value}`)
     }
   }
 
@@ -49,7 +49,7 @@ export class Search extends Component {
       <div className="search-container">
         <form onSubmit={this._handleSearch}>
           <input type="search"
-            value={this.state.query}
+            value={this.state.value}
             onChange={this._handleSearchQueryChange}
             onFocus={(e) => e.target.select()}
             placeholder="Search title, location, description..." />
@@ -57,6 +57,10 @@ export class Search extends Component {
       </div>
     )
   }
+}
+
+Search.defaultProps = {
+  value: ''
 }
 
 export default connect((state) => ({state}), {

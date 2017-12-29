@@ -3,6 +3,7 @@ import fetchPosts from './lib/posts'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const RECEIVE_NEXT_PAGE = 'RECEIVE_NEXT_PAGE'
 export const SET_ACTIVE_TAB = 'SET_ACTIVE_TAB'
+export const RECEIVE_SEARCH_QUERY = 'RECEIVE_SEARCH_QUERY'
 export const LOADING = 'LOADING'
 
 const handleError = (err) => {
@@ -13,6 +14,13 @@ export function setActiveTab(tab) {
   return {
     type: SET_ACTIVE_TAB,
     tab
+  }
+}
+
+export function receiveSearchQuery(query) {
+  return {
+    type: RECEIVE_SEARCH_QUERY,
+    query
   }
 }
 

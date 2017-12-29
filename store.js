@@ -7,6 +7,7 @@ import {
   RECEIVE_POSTS,
   RECEIVE_NEXT_PAGE,
   SET_ACTIVE_TAB,
+  RECEIVE_SEARCH_QUERY,
   LOADING,
 } from './actions'
 
@@ -20,20 +21,24 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         posts: action.posts,
-        query: action.query,
       }
 
     case RECEIVE_NEXT_PAGE:
       return {
         ...state,
         posts: state.posts.concat(action.posts),
-        query: action.query,
       }
 
     case LOADING:
       return {
         ...state,
         isLoading: action.isLoading
+      }
+
+    case RECEIVE_SEARCH_QUERY:
+      return {
+        ...state,
+        searchQuery: action.query
       }
 
     case SET_ACTIVE_TAB:
