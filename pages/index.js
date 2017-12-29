@@ -61,12 +61,12 @@ export class App extends React.Component {
         <Header />
 
         <div id="main" className="container">
-          <div className="row">
-            <div className="flex-1">
+          <div className="grid">
+            <div className="col-xs-3">
               <Menu currentPath={this.props.currentPath} />
             </div>
 
-            <div className="flex-3">
+            <div className="col-xs-auto col-md-auto">
               <h2>
                 <strong>
                   {this.props.state.tab || 'All'}
@@ -80,9 +80,7 @@ export class App extends React.Component {
               <Posts />
             </div>
 
-            <div className="flex-1">
 
-            </div>
           </div>
         </div>
       </div>

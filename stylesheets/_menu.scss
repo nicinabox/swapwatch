@@ -2,7 +2,7 @@
   margin-top: 78px;
 
   nav {
-    margin-bottom: 30px;
+    margin: 10px 0;
   }
 
   a {
@@ -28,6 +28,18 @@
       &:hover {
         background: darken($value, 10%);
       }
+    }
+  }
+
+  @media (max-width: $screen-sm) {
+    margin-top: 0;
+    white-space: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+
+    a {
+      display: inline-block;
     }
   }
 }

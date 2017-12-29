@@ -1,25 +1,7 @@
-%flex {
-  margin-left: 15px;
-  margin-right: 15px;
+[class^="col-"] {
+  padding: 0 15px;
 }
 
 .container {
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.row {
-  display: flex;
-  flex-direction: row;
-}
-
-@for $i from 1 through 6 {
-  .flex-#{$i} {
-    @extend %flex;
-    flex: $i;
-  }
-}
-
-.align-center {
-  align-items: center;
+  max-width: 1200px;
 }

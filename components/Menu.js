@@ -42,20 +42,6 @@ export class Menu extends React.Component {
             )
           })}
         </nav>
-
-        <nav>
-          {Object.keys(filters).map((subreddit) => {
-            return (
-              <a
-                key={subreddit}
-                href={`/${subreddit}`}
-                onClick={this._handleLinkClick}
-                className={subreddit === this.props.state.subreddit ? 'active' : ''}>
-                r/{subreddit}
-              </a>
-            )
-          })}
-        </nav>
       </div>
     )
   }
