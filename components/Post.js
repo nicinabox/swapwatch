@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import timeago from 'timeago.js'
+import startCase from 'lodash/startCase'
 
 export default class Post extends Component {
   constructor(props) {
@@ -15,18 +16,29 @@ export default class Post extends Component {
     }
   }
 
-  _renderLocation(post) {
-    const location = [post.zone, post.region].filter(f => f).join('-')
+  _renderLocation() {
+    const location = [
+      this.props.post.zone,
+      this.props.post.region
+    ].filter(f => f).join('-')
 
     return location && (
       <span>{location}</span>
     )
   }
 
-  _renderTimeAgo(post) {
+  _renderTimeAgo() {
     return (
       <span className="text-muted">
-        {new timeago().format(post.created_utc * 1000)}
+        {new timeago().format(this.props.post.created_utc * 1000)}
+      </span>
+    )
+  }
+
+  _renderFlair() {
+    return (
+      <span className="text-muted pull-right">
+        {startCase(this.props.post.type)}
       </span>
     )
   }
@@ -37,8 +49,9 @@ export default class Post extends Component {
     return (
       <a href={post.url} className="post">
         <div className="post-meta">
-          {this._renderLocation(post)}
-          {this._renderTimeAgo(post)}
+          {this._renderLocation()}
+          {this._renderTimeAgo()}
+          {this._renderFlair()}
         </div>
 
         <strong>

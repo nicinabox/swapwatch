@@ -31,7 +31,7 @@ export class Posts extends React.Component {
       <div className="posts">
         <div className="container">
           <h3>
-            <strong>{this.props.state.tab}</strong>
+            <strong>{this.props.state.tab || 'All'}</strong>
 
             {isLoading && (
               <small className="text-muted pull-right">

@@ -4500,7 +4500,7 @@ supports-color@^4.0.0, supports-color@^4.2.1:
   dependencies:
     has-flag "^2.0.0"
 
-"swap-parser@file:../swap-parser":
+"swap-parser@file:///Users/nic/code/swap-parser":
   version "1.0.0"
 
 symbol-observable@^1.0.3:

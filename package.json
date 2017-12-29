@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "next",
-    "build:css": "node-sass -r stylesheets/main.scss -o static"
+    "dev": "node server.js",
+    "build:css": "node-sass -r stylesheets/main.scss -o static",
+    "start": "NODE_ENV=production node server.js"
   },
   "keywords": [],
   "author": "Nic Haynes <nic@nicinabox.com> (http://nicinabox.com)",

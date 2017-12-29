@@ -24,7 +24,8 @@ export function isLoading(bool) {
 }
 
 export function getPosts(flair) {
-  return search(`flair:${flair}`)
+  const q = flair ? `flair:${JSON.stringify(flair)}` : null
+  return search(q)
 }
 
 export function getNextPage(params) {

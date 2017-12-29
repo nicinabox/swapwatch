@@ -1,53 +1,43 @@
 import React from 'react'
 import debounce from 'lodash/debounce'
 import startCase from 'lodash/startCase'
+import isEmpty from 'lodash/isEmpty'
 import withRedux from 'next-redux-wrapper'
+import qs from 'qs'
 import { bindActionCreators } from 'redux'
 import { initStore } from '../store'
 import { getPosts, search, setActiveTab } from '../actions'
+import tabs from '../lib/filters'
 
 import Head from '../components/Head'
-import Menu, { TABS } from '../components/Menu'
+import Menu from '../components/Menu'
 import Posts from '../components/Posts'
 
+const TAB_NAMES = Object.keys(tabs)
+
 export class App extends React.Component {
-  static async getInitialProps({ store, query }) {
-    if (query) {
-      await store.dispatch(search(query.q))
+  static async getInitialProps({ store, query, asPath }) {
+    let [pathname, params] = asPath.split('?')
+    const tab = startCase(pathname.replace('/', ''))
+
+    query = !isEmpty(query) ? query : qs.parse(params)
+
+    if (query.q) {
+      await store.dispatch(search(`${query.q} flair:${JSON.stringify(tab)}`))
+      store.dispatch(setActiveTab('Search'))
     } else {
-      await store.dispatch(getPosts(TABS[0]))
+      store.dispatch(setActiveTab(tab))
+      await store.dispatch(getPosts(tab))
     }
 
     return {
-      query: query.q
+      query,
+      currentPath: pathname,
     }
   }
 
   constructor(props) {
     super(props)
-
-    this._handleMenuItemPress = this._handleMenuItemPress.bind(this)
-    this._handleSearch = debounce(this._handleSearch.bind(this), 200)
-
-    this.state = {
-      selectedTab: TABS.indexOf(props.tab),
-      query: props.query
-    }
-  }
-
-  _handleMenuItemPress(index) {
-    this.setState({ selectedTab: index, })
-    this.props.setActiveTab(TABS[index])
-    this.props.getPosts(TABS[index])
-  }
-
-  _handleSearch(query) {
-    if (query) {
-      this.props.search(query)
-      window.history.pushState('', '', `?q=${query}`)
-    } else {
-      window.history.pushState('', '', '/')
-    }
   }
 
   render() {
@@ -56,9 +46,8 @@ export class App extends React.Component {
         <Head />
 
         <Menu
-          query={this.state.query}
-          onPress={this._handleMenuItemPress}
-          onSearch={this._handleSearch}
+          currentPath={this.props.currentPath}
+          query={this.props.query.q}
         />
 
         <Posts />
@@ -75,4 +64,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default withRedux(initStore, null, mapDispatchToProps)(App)
+export default withRedux(initStore, (state) => ({state}), mapDispatchToProps)(App)

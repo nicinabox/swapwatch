@@ -1,30 +1,28 @@
 import React from 'react'
-import { SELLING, BUYING, ARTISAN, GROUP_BUY, INTEREST_CHECK, VENDOR } from '../lib/posts'
+import { connect } from 'react-redux'
+import Router from 'next/router'
+import tabs from '../lib/filters'
+import { search } from '../actions'
 
-export const TABS = [SELLING, BUYING, ARTISAN, GROUP_BUY, INTEREST_CHECK, VENDOR]
-
-export default class Menu extends React.Component {
+export class Menu extends React.Component {
   constructor(props) {
     super(props)
 
     this._handleSearch = this._handleSearch.bind(this)
-    this._handleTabPress = this._handleTabPress.bind(this)
     this._handleSearchQueryChange = this._handleSearchQueryChange.bind(this)
+    this._handleLinkClick = this._handleLinkClick.bind(this)
 
     this.state = {
-      selectedTab: 0,
       query: props.query || '',
+      prevPath: props.currentPath,
     }
   }
 
-  _handleTabPress(e, index) {
-    e.preventDefault()
-
+  componentWillReceiveProps(nextProps) {
     this.setState({
-      selectedTab: index,
+      query: nextProps.query || '',
+      prevPath: nextProps.currentPath,
     })
-
-    this.props.onPress(index)
   }
 
   _handleSearchQueryChange(e) {
@@ -32,28 +30,43 @@ export default class Menu extends React.Component {
     this.setState({ query: value })
 
     if (!value) {
-      this.props.onSearch()
+      Router.push('/', this.state.prevPath)
+      this.setState({ prevPath: this.state.currentPath })
     }
   }
 
   _handleSearch(e) {
     e.preventDefault()
-    this.props.onSearch(this.state.query)
+
+    const { query } = this.state
+
+    if (query) {
+      this.setState({ prevPath: this.props.currentPath })
+      Router.push('/', `${this.props.currentPath}?q=${query}`)
+    }
+  }
+
+  _handleLinkClick(e) {
+    e.preventDefault()
+    Router.push('/', e.target.pathname)
   }
 
   render() {
-    let { selectedTab } = this.state
+    const { currentPath } = this.props
 
     return (
       <div className="menu">
         <nav>
-          {TABS.map((item, i) => {
+          {Object.keys(tabs).map((tab) => {
+            const path = tabs[tab]
+
             return (
-              <a key={i}
-                href="#"
-                onClick={(e) => this._handleTabPress(e, i)}
-                className={selectedTab === i ? 'active' : null}>
-                {item}
+              <a
+                key={tab}
+                href={path}
+                onClick={this._handleLinkClick}
+                className={currentPath === path ? 'active' : null}>
+                {tab}
               </a>
             )
           })}
@@ -64,10 +77,15 @@ export default class Menu extends React.Component {
             <input type="search"
               value={this.state.query}
               onChange={this._handleSearchQueryChange}
-              placeholder="Search..." />
+              onFocus={(e) => e.target.select()}
+              placeholder="Search title, location, description..." />
           </form>
         </div>
       </div>
     )
   }
 }
+
+export default connect((state) => ({state}), {
+  search
+})(Menu)
