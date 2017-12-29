@@ -1,112 +1,49 @@
 import React from 'react'
-import timeago from 'timeago.js'
-import capitalize from 'lodash/capitalize'
-import fetchPosts from '../lib/posts'
+import { connect } from 'react-redux'
+import { getNextPage } from '../actions'
+import Post from './Post'
 
-const INVERSES = {
-  want: 'have',
-  have: 'want'
-}
-
-const inverse = (field) => INVERSES[field]
-
-const getHeading = (props) => {
-  return props.query ? 'Search results' : 'New posts'
-}
-
-export default class Posts extends React.Component {
+export class Posts extends React.Component {
   constructor(props) {
-    super()
+    super(props)
 
     this._handleLoadMore = this._handleLoadMore.bind(this)
 
     this.state = {
-      heading: getHeading(props)
     }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      heading: getHeading(nextProps),
-      isSearching: !!nextProps.query,
-    })
   }
 
   _handleLoadMore(e) {
     e.preventDefault()
 
-    let params = {
-      after: this.state.posts[this.state.posts.length - 1].name
-    }
+    const { posts, tab } = this.props.state
 
-    fetchPosts(params)
-      .then((posts) => {
-        this.setState({ posts: this.state.posts.concat(posts) })
-      })
-  }
-
-  _renderWantOrHave(post) {
-    let field = inverse(this.props.titleField)
-
-    return field && (
-      <span className="text-muted">
-        {capitalize(field)} {post[field]}
-      </span>
-    )
-  }
-
-  _renderLocation(post) {
-    const location = [post.zone, post.region].filter(f => f).join('-')
-    return location && (
-      <span>{location}</span>
-    )
-  }
-
-  _renderTimeAgo(post) {
-    return (
-      <span className="text-muted">
-        {new timeago().format(post.created_utc * 1000)}
-      </span>
-    )
-  }
-
-  _renderTitle(post) {
-    if (post.type === 'selling') {
-      return post.have
-    }
-
-    if (post.type === 'buying') {
-      return post.want
-    }
-
-    return post[post.type]
+    this.props.getNextPage({
+      after: posts[posts.length - 1].name,
+      q: `flair:${tab}`
+    })
   }
 
   render() {
-    let { posts } = this.props
+    let { isLoading, posts = [] } = this.props.state
 
     return (
       <div className="posts">
         <div className="container">
-          <p className="text-muted">{this.state.heading}</p>
+          <h3>
+            <strong>{this.props.state.tab}</strong>
 
-          <div>
+            {isLoading && (
+              <small className="text-muted pull-right">
+                Loading...
+              </small>
+            )}
+          </h3>
+
+          <div style={isLoading ? { opacity: 0.6 } : {}}>
             {posts.map((post) => {
               return (
-                <a key={post.id} href={post.url} className="post">
-                  <div className="post-meta">
-                    {this._renderLocation(post)}
-                    {this._renderTimeAgo(post)}
-                  </div>
-
-                  <strong>
-                    {this._renderTitle(post)}
-                  </strong>
-
-                  <div className="post-meta">
-                    {this._renderWantOrHave(post)}
-                  </div>
-                </a>
+                <Post key={post.id} post={post} />
               )
             })}
             <a href="#"
@@ -120,3 +57,7 @@ export default class Posts extends React.Component {
     )
   }
 }
+
+export default connect(state => ({state}),{
+  getNextPage
+})(Posts)

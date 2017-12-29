@@ -1,6 +1,7 @@
 body {
   line-height: 1.6;
   font-family: Lato, Helvetica Neue;
+  background: #f7f7f7;
 }
 
 a {
@@ -15,4 +16,12 @@ a {
 
 .text-muted {
   color: gray;
+}
+
+.pull-right {
+  float: right;
+}
+
+.pull-left {
+  float: left;
 }

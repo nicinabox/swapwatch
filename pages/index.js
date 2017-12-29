@@ -1,25 +1,26 @@
 import React from 'react'
 import debounce from 'lodash/debounce'
 import startCase from 'lodash/startCase'
-import fetchPosts from '../lib/posts'
-import search from '../lib/search'
+import withRedux from 'next-redux-wrapper'
+import { bindActionCreators } from 'redux'
+import { initStore } from '../store'
+import { getPosts, search, setActiveTab } from '../actions'
+
 import Head from '../components/Head'
 import Menu, { TABS } from '../components/Menu'
 import Posts from '../components/Posts'
 
-export default class App extends React.Component {
-  static async getInitialProps({ query }) {
-    return await Promise.all([fetchPosts(), search(query.q)])
-      .then(([posts, results]) => {
-        return ({
-          posts,
-          results,
-          query: query.q
-        })
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+export class App extends React.Component {
+  static async getInitialProps({ store, query }) {
+    if (query) {
+      await store.dispatch(search(query.q))
+    } else {
+      await store.dispatch(getPosts(TABS[0]))
+    }
+
+    return {
+      query: query.q
+    }
   }
 
   constructor(props) {
@@ -29,46 +30,23 @@ export default class App extends React.Component {
     this._handleSearch = debounce(this._handleSearch.bind(this), 200)
 
     this.state = {
-      selectedTab: 0,
-      query: props.query,
-      results: props.results,
+      selectedTab: TABS.indexOf(props.tab),
+      query: props.query
     }
   }
 
   _handleMenuItemPress(index) {
-    this.setState({
-      selectedTab: index,
-    })
-
-    let flair = startCase(TABS[index])
-
-    fetchPosts({
-      q: `flair:"${flair}"`
-    })
-    .then((posts) => {
-      this.setState({
-        results: posts
-      })
-    })
+    this.setState({ selectedTab: index, })
+    this.props.setActiveTab(TABS[index])
+    this.props.getPosts(TABS[index])
   }
 
   _handleSearch(query) {
-    this.setState({ query })
-
     if (query) {
+      this.props.search(query)
       window.history.pushState('', '', `?q=${query}`)
-
-      search(query)
-        .then((results) => {
-          console.log(results);
-          this.setState({ results })
-        })
-        .catch((err) => {
-          console.log(err);
-        })
     } else {
       window.history.pushState('', '', '/')
-      this.setState({ results: null })
     }
   }
 
@@ -80,13 +58,21 @@ export default class App extends React.Component {
         <Menu
           query={this.state.query}
           onPress={this._handleMenuItemPress}
-          onSearch={this._handleSearch} />
+          onSearch={this._handleSearch}
+        />
 
-        <Posts
-          query={this.state.query}
-          posts={this.state.results || this.props.posts}
-          type={TABS[this.state.selectedTab]} />
+        <Posts />
       </div>
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getPosts: bindActionCreators(getPosts, dispatch),
+    search: bindActionCreators(search, dispatch),
+    setActiveTab: bindActionCreators(setActiveTab, dispatch),
+  }
+}
+
+export default withRedux(initStore, null, mapDispatchToProps)(App)

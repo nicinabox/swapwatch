@@ -13,7 +13,7 @@ export default class Menu extends React.Component {
 
     this.state = {
       selectedTab: 0,
-      query: props.query,
+      query: props.query || '',
     }
   }
 

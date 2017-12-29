@@ -1,6 +1,7 @@
 body {
   line-height: 1.6;
-  font-family: Lato, Helvetica Neue; }
+  font-family: Lato, Helvetica Neue;
+  background: #f7f7f7; }
 
 a {
   color: #1F87FF;
@@ -12,6 +13,12 @@ a {
 
 .text-muted {
   color: gray; }
+
+.pull-right {
+  float: right; }
+
+.pull-left {
+  float: left; }
 
 .menu {
   border-bottom: 1px solid #ddd;
@@ -49,8 +56,7 @@ a {
 
 .posts {
   margin-top: 45px;
-  padding: 30px 0;
-  background: #f7f7f7; }
+  padding: 30px 0; }
   .posts .location {
     color: gray;
     font-size: small; }
