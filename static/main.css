@@ -130,8 +130,11 @@ a {
   height: 2px;
   background: #001f3f;
   background-image: linear-gradient(to right, #001f3f, #0074D9, #F012BE, #B10DC9, #39CCCC, #FF851B, #FF4136, #7FDBFF, #2ECC40);
-  position: sticky;
-  top: 0; }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2; }
 
 #main {
   margin-top: 50px;

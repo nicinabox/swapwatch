@@ -14,8 +14,11 @@ a {
   height: 2px;
   background: $brand-primary;
   background-image: linear-gradient(to right, map-values($flair));
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
 }
 
 #main {
