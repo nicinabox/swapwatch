@@ -7,12 +7,27 @@
 
   a {
     display: block;
-    padding: 6px 15px 10px;
+    padding: 4px 15px 6px;
     border-radius: $border-radius;
     margin-bottom: 2px;
 
     &:not(.active):hover {
-      background: #eee;
+      background-color: #ddd;
+    }
+  }
+
+  .active {
+    background-color: $brand-primary;
+    color: white;
+  }
+
+  @each $name, $value in $flair {
+    .active-#{$name} {
+      background-color: $value;
+
+      &:hover {
+        background: darken($value, 10%);
+      }
     }
   }
 }

@@ -190,11 +190,50 @@ a {
     margin-bottom: 30px; }
   .menu a {
     display: block;
-    padding: 6px 15px 10px;
+    padding: 4px 15px 6px;
     border-radius: 4px;
     margin-bottom: 2px; }
     .menu a:not(.active):hover {
-      background: #eee; }
+      background-color: #ddd; }
+  .menu .active {
+    background-color: #001f3f;
+    color: white; }
+  .menu .active-all {
+    background-color: #001f3f; }
+    .menu .active-all:hover {
+      background: #00060c; }
+  .menu .active-selling {
+    background-color: #0074D9; }
+    .menu .active-selling:hover {
+      background: #0059a6; }
+  .menu .active-buying {
+    background-color: #F012BE; }
+    .menu .active-buying:hover {
+      background: #c30c9a; }
+  .menu .active-trading {
+    background-color: #B10DC9; }
+    .menu .active-trading:hover {
+      background: #870a99; }
+  .menu .active-group-buy {
+    background-color: #39CCCC; }
+    .menu .active-group-buy:hover {
+      background: #2ba7a7; }
+  .menu .active-vendor {
+    background-color: #FF851B; }
+    .menu .active-vendor:hover {
+      background: #e76b00; }
+  .menu .active-interest-check {
+    background-color: #FF4136; }
+    .menu .active-interest-check:hover {
+      background: #ff1103; }
+  .menu .active-artisan {
+    background-color: #7FDBFF; }
+    .menu .active-artisan:hover {
+      background: #4ccdff; }
+  .menu .active-meta {
+    background-color: #2ECC40; }
+    .menu .active-meta:hover {
+      background: #25a233; }
 
 .search-container {
   margin-bottom: 20px; }
