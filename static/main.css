@@ -116,6 +116,18 @@ a.meta-bg {
   a.meta-bg:hover {
     background: #25a233; }
 
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit; }
+
 body {
   line-height: 1.6;
   font-family: Lato, Helvetica Neue;
