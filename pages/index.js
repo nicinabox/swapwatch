@@ -17,6 +17,7 @@ import {
 
 import Head from '../components/Head'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 import Menu from '../components/Menu'
 import Search from '../components/Search'
 import Posts from '../components/Posts'
@@ -84,6 +85,8 @@ export class App extends React.Component {
             </div>
           </div>
         </div>
+
+        <Footer />
       </div>
     )
   }
