@@ -182,8 +182,8 @@ a {
     font-size: 14px; }
     .header nav a {
       display: inline-block;
-      padding: 2px 6px;
-      border-radius: 4px;
+      padding: 2px 12px 3px;
+      border-radius: 16px;
       margin-left: 2px; }
       .header nav a:not(.active):hover {
         background-color: #ddd; }
