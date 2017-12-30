@@ -3,6 +3,7 @@ import toQuery from './lib/toQuery'
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const RECEIVE_NEXT_PAGE = 'RECEIVE_NEXT_PAGE'
+export const RECEIVE_NEW_POSTS = 'RECEIVE_NEW_POSTS'
 export const SET_ACTIVE_TAB = 'SET_ACTIVE_TAB'
 export const RECEIVE_LOADING = 'RECEIVE_LOADING'
 export const RECEIVE_LOCATION = 'RECEIVE_LOCATION'
@@ -53,13 +54,24 @@ export function search(flair, query) {
 
     return fetchPosts(location.subreddit, { q: toQuery(flair, query) })
       .then((posts) => {
-        dispatch({
-          type: RECEIVE_POSTS,
-          posts,
-        })
+        dispatch(receivePosts(posts))
         dispatch(isLoading(false))
       })
       .catch(handleError)
+  }
+}
+
+export function receivePosts(posts) {
+  return {
+    type: RECEIVE_POSTS,
+    posts,
+  }
+}
+
+export function receiveNewPosts(posts) {
+  return {
+    type: RECEIVE_NEW_POSTS,
+    posts,
   }
 }
 

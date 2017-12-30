@@ -12,8 +12,11 @@ import {
   setActiveTab,
   receiveParams,
   receiveLocation,
+  receiveNewPosts,
   changeSubreddit
 } from '../actions'
+import Watcher from '../lib/watcher'
+import { parsePosts } from '../lib/posts'
 
 import Head from '../components/Head'
 import Header from '../components/Header'
@@ -43,6 +46,57 @@ export class App extends React.Component {
     await store.dispatch(search(activeTab, query.q))
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      status: ''
+    }
+  }
+
+  componentDidMount() {
+    const { location, params, posts } = this.props.state
+
+    this.watcher = new Watcher({
+      subreddit: location.subreddit,
+      flair: location.filter,
+      term: params.q,
+      before: posts.length && posts[0].name
+    })
+    .on('initial check', () => {
+      this.setState({ status: 'Checking for new posts...' })
+    })
+    .on('before check', () => {
+      if (this.ticker) clearTimeout(this.ticker)
+
+      const { interval } = this.watcher
+      let t = interval, tick = 1000
+
+      const updateStatus = () => {
+        t = t - tick
+        this.setState({ status: `Refresh in ${t / 1000}s` })
+      }
+
+      this.ticker = setInterval(() => {
+        updateStatus()
+      }, tick)
+
+      updateStatus()
+    })
+    .on('results', (posts) => {
+      this.setState({
+        status: `Found ${posts.length} new posts`
+      })
+
+      this.props.dispatch(receiveNewPosts(parsePosts(posts)))
+    })
+
+    this.watcher.start()
+  }
+
+  componentWillUnmount() {
+    this.watcher.stop()
+  }
+
   getHeading() {
     const { params, activeTab } = this.props.state
 
@@ -67,10 +121,21 @@ export class App extends React.Component {
             </div>
 
             <div className="col-xs-9 col-md-8">
-              <h2>
+              <h2 className="d-flex justify-space-between">
                 <strong>
                   {this.getHeading()}
                 </strong>
+
+                <div className="status text-muted text-small text-normal">
+                  <span>{this.state.status}</span>
+                  {'  '}
+                  <button className="button-outline" onClick={(e) => {
+                    e.preventDefault()
+                    this.watcher.start()
+                  }}>
+                    Refresh
+                  </button>
+                </div>
               </h2>
 
               <Search />

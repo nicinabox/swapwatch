@@ -1,0 +1,25 @@
+.button, button {
+  border: none;
+  border-radius: $border-radius;
+  color: #fff;
+  background-color: $brand-primary;
+  padding: 5px 8px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: lighten($brand-primary, 10%);
+  }
+
+}
+
+.button-outline {
+  background: none;
+  border: 1px solid $brand-primary;
+  color: $brand-primary;
+
+  &:hover {
+    background: none;
+    border-color: lighten($brand-primary, 20%);
+    color: lighten($brand-primary, 20%);
+  }
+}

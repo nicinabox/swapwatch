@@ -4,6 +4,9 @@
 .container {
   max-width: 1200px; }
 
+.d-flex {
+  display: flex; }
+
 input, select {
   width: 100%;
   margin: 0; }
@@ -16,6 +19,25 @@ label {
 label input {
   width: auto;
   margin-right: 6px; }
+
+.button, button {
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  background-color: #001f3f;
+  padding: 5px 8px;
+  cursor: pointer; }
+  .button:hover, button:hover {
+    background-color: #003872; }
+
+.button-outline {
+  background: none;
+  border: 1px solid #001f3f;
+  color: #001f3f; }
+  .button-outline:hover {
+    background: none;
+    border-color: #0051a5;
+    color: #0051a5; }
 
 .all-text {
   color: #001f3f; }
@@ -163,6 +185,9 @@ a {
 
 .text-right {
   text-align: right; }
+
+.text-normal {
+  font-weight: normal; }
 
 .pull-right {
   float: right; }

@@ -5,6 +5,7 @@ import thunkMiddleware from 'redux-thunk'
 import {
   RECEIVE_POSTS,
   RECEIVE_NEXT_PAGE,
+  RECEIVE_NEW_POSTS,
   SET_ACTIVE_TAB,
   RECEIVE_LOCATION,
   RECEIVE_PARAMS,
@@ -33,6 +34,12 @@ export const reducer = (state = initialState, action) => {
         ...state,
         posts: state.posts.concat(action.posts),
         hasNextPage: !!action.posts.length,
+      }
+
+    case RECEIVE_NEW_POSTS:
+      return {
+        ...state,
+        posts: action.posts.concat(state.posts),
       }
 
     case RECEIVE_LOADING:
