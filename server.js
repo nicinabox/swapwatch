@@ -15,6 +15,11 @@ const redirects = [
   { from: '/', to: '/mechmarket' },
 ]
 
+const whitelistPaths = [
+  '/',
+  '/favicon.ico'
+]
+
 app.prepare().then(() => {
   createServer((req, res) => {
     // Be sure to pass `true` as the second argument to `url.parse`.
@@ -31,7 +36,7 @@ app.prepare().then(() => {
       }
     })
 
-    if (pathname !== '/') {
+    if (!whitelistPaths.includes(pathname)) {
       app.render(req, res, '/', query)
     } else {
       handle(req, res, parsedUrl)
