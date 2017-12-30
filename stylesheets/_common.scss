@@ -22,6 +22,10 @@ body {
 a {
   color: $brand-primary;
   text-decoration: none;
+
+  &:hover {
+    color: lighten($brand-primary, 20%);
+  }
 }
 
 .top-bar {
@@ -58,6 +62,10 @@ a {
 
 .text-normal {
   font-weight: normal;
+}
+
+.text-underline {
+  border-bottom: 1px solid;
 }
 
 .pull-right {

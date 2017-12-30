@@ -51,18 +51,41 @@ export class App extends React.Component {
     this.state = {
       status: ''
     }
+    this.handleRefresh = this.handleRefresh.bind(this)
   }
 
   componentDidMount() {
-    const { location, params, posts } = this.props.state
+    this.watcher = this.createWatcher()
+    this.watcher.start()
+  }
 
-    this.watcher = new Watcher({
+  componentWillReceiveProps(nextProps, nextState) {
+    const locationChanged = ['location', 'subreddit', 'params'].some((name) => {
+      return nextProps.state[name] !== this.props[name]
+    })
+
+    if (locationChanged) {
+      this.watcher.stop()
+      this.watcher = this.createWatcher()
+      this.watcher.start()
+    }
+  }
+
+  componentWillUnmount() {
+    this.watcher.stop()
+  }
+
+  createWatcher() {
+    const { activeTab, location, params, posts } = this.props.state
+
+    return new Watcher({
       subreddit: location.subreddit,
-      flair: location.filter,
+      flair: activeTab,
       term: params.q,
       before: posts.length && posts[0].name
     })
     .on('initial check', () => {
+      console.log('checking');
       this.setState({ status: 'Checking for new posts...' })
     })
     .on('before check', () => {
@@ -71,30 +94,22 @@ export class App extends React.Component {
       const { interval } = this.watcher
       let t = interval, tick = 1000
 
-      const updateStatus = () => {
-        t = t - tick
-        this.setState({ status: `Refresh in ${t / 1000}s` })
-      }
-
       this.ticker = setInterval(() => {
-        updateStatus()
+        t = t - tick
+        this.setState({ refreshInterval: t / 1000 })
       }, tick)
-
-      updateStatus()
     })
     .on('results', (posts) => {
-      this.setState({
-        status: `Found ${posts.length} new posts`
-      })
-
       this.props.dispatch(receiveNewPosts(parsePosts(posts)))
     })
-
-    this.watcher.start()
   }
 
-  componentWillUnmount() {
+  handleRefresh(e) {
+    e.preventDefault()
+    this.setState({ refreshInterval: false })
     this.watcher.stop()
+    this.watcher.check()
+    this.watcher.start()
   }
 
   getHeading() {
@@ -121,22 +136,20 @@ export class App extends React.Component {
             </div>
 
             <div className="col-xs-9 col-md-8">
-              <h2 className="d-flex justify-space-between">
-                <strong>
+              <header className="d-flex justify-space-between align-center">
+                <h2>
                   {this.getHeading()}
-                </strong>
+                </h2>
 
-                <div className="status text-muted text-small text-normal">
-                  <span>{this.state.status}</span>
-                  {'  '}
-                  <button className="button-outline" onClick={(e) => {
-                    e.preventDefault()
-                    this.watcher.start()
-                  }}>
+                <div className="status">
+                  <a href="#" className="text-underline" onClick={this.handleRefresh}>
                     Refresh
-                  </button>
+                    {this.state.refreshInterval && (
+                      ` (${this.state.refreshInterval}s)`
+                    )}
+                  </a>
                 </div>
-              </h2>
+              </header>
 
               <Search />
               <Posts />

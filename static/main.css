@@ -159,6 +159,8 @@ body {
 a {
   color: #001f3f;
   text-decoration: none; }
+  a:hover {
+    color: #0051a5; }
 
 .top-bar {
   height: 2px;
@@ -188,6 +190,9 @@ a {
 
 .text-normal {
   font-weight: normal; }
+
+.text-underline {
+  border-bottom: 1px solid; }
 
 .pull-right {
   float: right; }
