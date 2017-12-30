@@ -6,6 +6,8 @@ export class Header extends React.Component {
   render() {
     return (
       <div className="header">
+        <div className="top-bar" />
+
         <div className="grid ">
           <div className="col-auto">
             <a href={`/${this.props.state.subreddit}`} className="logo">

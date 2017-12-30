@@ -60,8 +60,6 @@ export class App extends React.Component {
       <div id="root">
         <Head />
 
-        <div className="top-bar"></div>
-
         <Header />
 
         <div id="main" className="container">
