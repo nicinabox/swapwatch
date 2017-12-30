@@ -66,6 +66,11 @@
 
     span {
       margin-right: 15px;
+
+      &.pull-right {
+        margin-right: 0;
+        margin-left: 15px;
+      }
     }
   }
 }
