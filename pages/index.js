@@ -65,11 +65,11 @@ export class App extends React.Component {
 
         <div id="main" className="container">
           <div className="grid">
-            <div className="col-xs-3">
+            <div className="col-xs-3 col-md-2">
               <Menu currentPath={this.props.currentPath} />
             </div>
 
-            <div className="col-xs-auto col-md-auto">
+            <div className="col-xs-9 col-md-8">
               <h2>
                 <strong>
                   {this.props.state.tab || 'All'}
