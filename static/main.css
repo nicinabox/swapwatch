@@ -201,7 +201,9 @@ a {
   border-top: 2px solid #eee; }
 
 .menu {
-  margin-top: 78px; }
+  margin-top: 78px;
+  position: sticky;
+  top: 20px; }
   .menu nav {
     margin: 10px 0; }
   .menu a {
@@ -334,3 +336,6 @@ a {
     font-size: small; }
     .posts .post-meta span {
       margin-right: 15px; }
+      .posts .post-meta span.pull-right {
+        margin-right: 0;
+        margin-left: 15px; }
