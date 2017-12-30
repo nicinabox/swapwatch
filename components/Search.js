@@ -11,15 +11,15 @@ export class Search extends Component {
     this._handleSearchQueryChange = this._handleSearchQueryChange.bind(this)
 
     this.state = {
-      value: props.state.searchQuery || '',
-      prevPath: props.currentPath,
+      value: props.state.params.q || '',
+      prevPath: props.state.location.pathname,
     }
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      value: nextProps.state.searchQuery || '',
-      prevPath: nextProps.currentPath,
+      value: nextProps.state.params.q || '',
+      prevPath: nextProps.state.location.pathname,
     })
   }
 
@@ -29,7 +29,7 @@ export class Search extends Component {
 
     if (!value) {
       Router.push('/', this.state.prevPath)
-      this.setState({ prevPath: this.state.currentPath })
+      this.setState({ prevPath: this.props.state.location.pathname })
     }
   }
 
@@ -37,10 +37,11 @@ export class Search extends Component {
     e.preventDefault()
 
     const { value } = this.state
+    const { location } = this.props.state
 
     if (value) {
-      this.setState({ prevPath: this.props.currentPath })
-      Router.push('/', `${this.props.currentPath}?q=${value}`)
+      this.setState({ prevPath: location.pathname })
+      Router.push('/', `${location.pathname}?q=${value}`)
     }
   }
 

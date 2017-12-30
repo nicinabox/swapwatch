@@ -5,13 +5,13 @@ import isEmpty from 'lodash/isEmpty'
 import withRedux from 'next-redux-wrapper'
 import pathToRegexp from 'path-to-regexp'
 import qs from 'qs'
-import { bindActionCreators } from 'redux'
 import { initStore } from '../store'
 import {
   getPosts,
   search,
   setActiveTab,
-  receiveSearchQuery,
+  receiveParams,
+  receiveLocation,
   changeSubreddit
 } from '../actions'
 
@@ -26,33 +26,31 @@ const route = pathToRegexp('/:subreddit/:filter?')
 
 export class App extends React.Component {
   static async getInitialProps({ store, query, asPath }) {
-    let [pathname, params] = asPath.split('?')
-    let [, subreddit, filter] = route.exec(pathname)
-    let tab = startCase(filter)
+    const [pathname, params] = asPath.split('?')
+    const [, subreddit, filter] = route.exec(pathname)
+    const activeTab = startCase(filter)
 
     query = !isEmpty(query) ? query : qs.parse(params)
 
-    store.dispatch(receiveSearchQuery(query.q))
+    store.dispatch(receiveLocation({
+      subreddit,
+      filter,
+      pathname
+    }))
+    store.dispatch(receiveParams(query))
+    store.dispatch(setActiveTab(activeTab))
 
-    if (subreddit !== store.getState().subreddit) {
-      store.dispatch(changeSubreddit(subreddit))
-    }
-
-    if (query.q) {
-      store.dispatch(setActiveTab(`Searching ${tab}`))
-      await store.dispatch(search(tab, query.q))
-    } else {
-      store.dispatch(setActiveTab(tab))
-      await store.dispatch(getPosts(tab))
-    }
-
-    return {
-      currentPath: pathname,
-    }
+    await store.dispatch(search(activeTab, query.q))
   }
 
-  constructor(props) {
-    super(props)
+  getHeading() {
+    const { params, activeTab } = this.props.state
+
+    if (params.q) {
+      return `Searching ${activeTab}`
+    }
+
+    return activeTab
   }
 
   render() {
@@ -65,20 +63,17 @@ export class App extends React.Component {
         <div id="main" className="container">
           <div className="grid">
             <div className="col-xs-3 col-md-2">
-              <Menu currentPath={this.props.currentPath} />
+              <Menu />
             </div>
 
             <div className="col-xs-9 col-md-8">
               <h2>
                 <strong>
-                  {this.props.state.tab || 'All'}
+                  {this.getHeading()}
                 </strong>
               </h2>
 
-              <Search
-                currentPath={this.props.currentPath}
-              />
-
+              <Search />
               <Posts />
             </div>
           </div>
@@ -90,14 +85,6 @@ export class App extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getPosts: bindActionCreators(getPosts, dispatch),
-    search: bindActionCreators(search, dispatch),
-    setActiveTab: bindActionCreators(setActiveTab, dispatch),
-  }
-}
-
 export default withRedux(initStore, (state) => ({
   state
-}), mapDispatchToProps)(App)
+}))(App)

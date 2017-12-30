@@ -10,7 +10,7 @@ export class Header extends React.Component {
 
         <div className="grid ">
           <div className="col-auto">
-            <a href={`/${this.props.state.subreddit}`} className="logo">
+            <a href={`/${this.props.state.location.subreddit}`} className="logo">
               SwapWatch
             </a>
           </div>
@@ -23,7 +23,7 @@ export class Header extends React.Component {
                     key={subreddit}
                     href={`/${subreddit}`}
                     onClick={this._handleLinkClick}
-                    className={subreddit === this.props.state.subreddit ? 'active' : ''}>
+                    className={subreddit === this.props.state.location.subreddit ? 'active' : ''}>
                     r/{subreddit}
                   </a>
                 )

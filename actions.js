@@ -1,49 +1,37 @@
-import Router from 'next/router'
 import fetchPosts from './lib/posts'
 import toQuery from './lib/toQuery'
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const RECEIVE_NEXT_PAGE = 'RECEIVE_NEXT_PAGE'
 export const SET_ACTIVE_TAB = 'SET_ACTIVE_TAB'
-export const RECEIVE_SEARCH_QUERY = 'RECEIVE_SEARCH_QUERY'
-export const CHANGE_SUBREDDIT = 'CHANGE_SUBREDDIT'
-export const LOADING = 'LOADING'
+export const RECEIVE_LOADING = 'RECEIVE_LOADING'
+export const RECEIVE_LOCATION = 'RECEIVE_LOCATION'
+export const RECEIVE_PARAMS = 'RECEIVE_PARAMS'
 
 const handleError = (err) => {
   console.log(err)
 }
 
-export function setActiveTab(tab) {
+export function setActiveTab(activeTab) {
   return {
     type: SET_ACTIVE_TAB,
-    tab
-  }
-}
-
-export function receiveSearchQuery(query) {
-  return {
-    type: RECEIVE_SEARCH_QUERY,
-    query
+    activeTab: activeTab || 'All'
   }
 }
 
 export function isLoading(bool) {
   return {
-    type: LOADING,
+    type: RECEIVE_LOADING,
     isLoading: bool,
   }
-}
-
-export function getPosts(flair) {
-  return search(flair)
 }
 
 export function getNextPage(after, flair) {
   return (dispatch, getState) => {
     dispatch(isLoading(true))
-    const { subreddit } = getState()
+    const { location } = getState()
 
-    return fetchPosts(subreddit, {
+    return fetchPosts(location.subreddit, {
       after,
       q: toQuery(flair)
     })
@@ -61,9 +49,9 @@ export function getNextPage(after, flair) {
 export function search(flair, query) {
   return (dispatch, getState) => {
     dispatch(isLoading(true))
-    const { subreddit } = getState()
+    const { location } = getState()
 
-    return fetchPosts(subreddit, { q: toQuery(flair, query) })
+    return fetchPosts(location.subreddit, { q: toQuery(flair, query) })
       .then((posts) => {
         dispatch({
           type: RECEIVE_POSTS,
@@ -75,9 +63,16 @@ export function search(flair, query) {
   }
 }
 
-export function changeSubreddit(subreddit) {
+export function receiveLocation(location) {
   return {
-    type: CHANGE_SUBREDDIT,
-    subreddit
+    type: RECEIVE_LOCATION,
+    location
+  }
+}
+
+export function receiveParams(params) {
+  return {
+    type: RECEIVE_PARAMS,
+    params
   }
 }

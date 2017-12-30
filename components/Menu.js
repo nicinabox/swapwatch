@@ -16,14 +16,14 @@ export class Menu extends React.Component {
   }
 
   render() {
-    const { currentPath } = this.props
+    const { pathname } = this.props.state.location
 
     return (
       <div className="menu">
         <nav>
           {Object.keys(this.props.tabs).map((tab) => {
             const path = '/' + [
-              this.props.state.subreddit,
+              this.props.state.location.subreddit,
               this.props.tabs[tab]
             ].filter(f => f).join('/')
 
@@ -33,7 +33,7 @@ export class Menu extends React.Component {
                 href={path}
                 onClick={this._handleLinkClick}
                 className={[
-                  currentPath === path ? `active active-${kebabCase(tab)}` : null,
+                  pathname === path ? `active active-${kebabCase(tab)}` : null,
                   `${kebabCase(tab)}-text`,
                 ].join(' ')}>
                 {tab}
@@ -48,5 +48,5 @@ export class Menu extends React.Component {
 
 export default connect((state) => ({
   state,
-  tabs: filters[state.subreddit]
+  tabs: filters[state.location.subreddit]
 }))(Menu)

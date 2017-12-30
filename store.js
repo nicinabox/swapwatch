@@ -1,21 +1,22 @@
 import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from 'redux-thunk'
-import { SELLING } from './lib/posts'
 
 import {
   RECEIVE_POSTS,
   RECEIVE_NEXT_PAGE,
   SET_ACTIVE_TAB,
-  RECEIVE_SEARCH_QUERY,
-  CHANGE_SUBREDDIT,
-  LOADING,
+  RECEIVE_LOCATION,
+  RECEIVE_PARAMS,
+  RECEIVE_LOADING,
 } from './actions'
 
 const initialState = {
-  tab: SELLING,
-  subreddit: 'mechmarket',
+  activeTab: '',
+  params: {},
+  location: {},
   hasNextPage: true,
+  isLoading: false,
 }
 
 export const reducer = (state = initialState, action) => {
@@ -34,28 +35,28 @@ export const reducer = (state = initialState, action) => {
         hasNextPage: !!action.posts.length,
       }
 
-    case LOADING:
+    case RECEIVE_LOADING:
       return {
         ...state,
         isLoading: action.isLoading
       }
 
-    case RECEIVE_SEARCH_QUERY:
+    case RECEIVE_PARAMS:
       return {
         ...state,
-        searchQuery: action.query
+        params: action.params
+      }
+
+    case RECEIVE_LOCATION:
+      return {
+        ...state,
+        location: action.location
       }
 
     case SET_ACTIVE_TAB:
       return {
         ...state,
-        tab: action.tab
-      }
-
-    case CHANGE_SUBREDDIT:
-      return {
-        ...state,
-        subreddit: action.subreddit
+        activeTab: action.activeTab
       }
 
     default:

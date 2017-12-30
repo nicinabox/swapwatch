@@ -12,9 +12,9 @@ export class Posts extends React.Component {
   _handleLoadMore(e) {
     e.preventDefault()
 
-    const { posts, tab } = this.props.state
+    const { posts, activeTab } = this.props.state
 
-    this.props.getNextPage(posts[posts.length - 1].name, tab)
+    this.props.getNextPage(posts[posts.length - 1].name, activeTab)
   }
 
   render() {
