@@ -17,17 +17,28 @@ export class Posts extends React.Component {
     this.props.getNextPage(posts[posts.length - 1].name, activeTab)
   }
 
+  renderPosts(posts) {
+    return posts.map((post) => {
+      return (
+        <Post key={post.id} post={post} />
+      )
+    })
+  }
+
   render() {
-    let { isLoading, posts = [] } = this.props.state
+    let { isLoading, newPosts, posts = [] } = this.props.state
 
     return (
       <div className="posts">
         <div style={isLoading ? { opacity: 0.6 } : {}}>
-          {posts.map((post) => {
-            return (
-              <Post key={post.id} post={post} />
-            )
-          })}
+
+          {newPosts.length ? (
+            <div className="new-posts">
+              {this.renderPosts(newPosts)}
+            </div>
+          ) : null}
+
+          {this.renderPosts(posts)}
 
           {this.props.state.hasNextPage ? (
             <a href="#"

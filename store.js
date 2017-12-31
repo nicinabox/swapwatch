@@ -16,6 +16,8 @@ const initialState = {
   activeTab: '',
   params: {},
   location: {},
+  posts: [],
+  newPosts: [],
   hasNextPage: true,
   isLoading: false,
 }
@@ -27,6 +29,7 @@ export const reducer = (state = initialState, action) => {
         ...state,
         posts: action.posts,
         hasNextPage: !!action.posts.length,
+        newPosts: [],
       }
 
     case RECEIVE_NEXT_PAGE:
@@ -39,7 +42,7 @@ export const reducer = (state = initialState, action) => {
     case RECEIVE_NEW_POSTS:
       return {
         ...state,
-        posts: action.posts.concat(state.posts),
+        newPosts: action.posts.concat(state.newPosts),
       }
 
     case RECEIVE_LOADING:

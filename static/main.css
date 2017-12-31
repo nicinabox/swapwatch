@@ -351,6 +351,9 @@ a {
       border-color: #7FDBFF; }
     .posts .post.type-meta:hover {
       border-color: #2ECC40; }
+  .posts .new-posts {
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 20px; }
   .posts .load-more {
     padding: 15px;
     display: block;

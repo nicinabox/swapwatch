@@ -48,10 +48,10 @@ export class App extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      status: ''
-    }
+    this.state = {}
     this.handleRefresh = this.handleRefresh.bind(this)
+    this.onBeforeFetch = this.onBeforeFetch.bind(this)
+    this.onResults = this.onResults.bind(this)
   }
 
   componentDidMount() {
@@ -60,13 +60,13 @@ export class App extends React.Component {
   }
 
   componentWillReceiveProps(nextProps, nextState) {
-    const locationChanged = ['location', 'subreddit', 'params'].some((name) => {
-      return nextProps.state[name] !== this.props[name]
-    })
+    if (this.didNewPostsChange(nextProps)) {
+      this.watcher.before = nextProps.state.newPosts[0].name
+    }
 
-    if (locationChanged) {
+    if (this.didLocationChange(nextProps)) {
       this.watcher.stop()
-      this.watcher = this.createWatcher()
+      this.watcher = this.createWatcher(nextProps)
       this.watcher.start()
     }
   }
@@ -75,41 +75,58 @@ export class App extends React.Component {
     this.watcher.stop()
   }
 
-  createWatcher() {
-    const { activeTab, location, params, posts } = this.props.state
+  didNewPostsChange(nextProps) {
+    const { newPosts } = nextProps.state
+    return newPosts.length && newPosts.length !== this.props.state.newPosts.length
+  }
+
+  didLocationChange(nextProps) {
+    return ['location', 'subreddit', 'params'].some((name) => {
+      return nextProps.state[name] !== this.props.state[name]
+    })
+  }
+
+  onBeforeFetch() {
+    if (this.ticker) clearTimeout(this.ticker)
+
+    const { interval } = this.watcher
+    const tick = 1000
+    let t = interval
+
+    this.ticker = setInterval(() => {
+      t -= tick
+      this.setState({ refreshInterval: t / 1000 })
+    }, tick)
+  }
+
+  onResults(posts) {
+    if (posts.length) {
+      this.props.dispatch(receiveNewPosts(parsePosts(posts)))
+    }
+  }
+
+  createWatcher(props = this.props) {
+    const { activeTab, location, params, posts, newPosts } = props.state
+    const flair = activeTab === 'All' ? '' : activeTab
+    const before = (newPosts[0] || posts[0] || {}).name
 
     return new Watcher({
       subreddit: location.subreddit,
-      flair: activeTab,
       term: params.q,
-      before: posts.length && posts[0].name
+      before,
+      flair,
     })
-    .on('initial check', () => {
-      console.log('checking');
-      this.setState({ status: 'Checking for new posts...' })
-    })
-    .on('before check', () => {
-      if (this.ticker) clearTimeout(this.ticker)
-
-      const { interval } = this.watcher
-      let t = interval, tick = 1000
-
-      this.ticker = setInterval(() => {
-        t = t - tick
-        this.setState({ refreshInterval: t / 1000 })
-      }, tick)
-    })
-    .on('results', (posts) => {
-      this.props.dispatch(receiveNewPosts(parsePosts(posts)))
-    })
+    .on('before fetch', this.onBeforeFetch)
+    .on('results', this.onResults)
   }
 
   handleRefresh(e) {
     e.preventDefault()
+
+    this.watcher.fetch()
+    this.watcher.restart()
+
     this.setState({ refreshInterval: false })
-    this.watcher.stop()
-    this.watcher.check()
-    this.watcher.start()
   }
 
   getHeading() {
@@ -125,7 +142,7 @@ export class App extends React.Component {
   render() {
     return (
       <div id="root">
-        <Head />
+        <Head badge={this.props.state.newPosts.length} />
 
         <Header />
 
@@ -144,9 +161,9 @@ export class App extends React.Component {
                 <div className="status">
                   <a href="#" className="text-underline" onClick={this.handleRefresh}>
                     Refresh
-                    {this.state.refreshInterval && (
+                    {this.state.refreshInterval ? (
                       ` (${this.state.refreshInterval}s)`
-                    )}
+                    ) : null}
                   </a>
                 </div>
               </header>
