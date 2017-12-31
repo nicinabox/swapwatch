@@ -351,6 +351,35 @@ a {
       border-color: #7FDBFF; }
     .posts .post.type-meta:hover {
       border-color: #2ECC40; }
+  .posts .page {
+    border-top: 2px solid #ddd;
+    padding-top: 20px; }
+    .posts .page.new .post {
+      background: lightyellow; }
+    .posts .page.new .page-heading-text {
+      color: #FF851B; }
+  .posts .page-heading {
+    position: sticky;
+    top: 10px;
+    margin: 0;
+    margin-top: -37px;
+    margin-right: -110px;
+    width: 100px;
+    float: right; }
+    .posts .page-heading .page-heading-text {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 20px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: gray;
+      background: #f7f7f7; }
+    @media (max-width: 574px) {
+      .posts .page-heading {
+        margin-right: auto;
+        width: auto;
+        float: none;
+        text-align: center; } }
   .posts .new-posts {
     border-bottom: 2px solid #ddd;
     margin-bottom: 20px; }

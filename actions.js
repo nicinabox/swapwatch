@@ -27,7 +27,7 @@ export function isLoading(bool) {
   }
 }
 
-export function getNextPage(after, flair) {
+export function getNextPage(after, flair, page) {
   return (dispatch, getState) => {
     dispatch(isLoading(true))
     const { location } = getState()
@@ -37,10 +37,7 @@ export function getNextPage(after, flair) {
       q: toQuery(flair)
     })
       .then((posts) => {
-        dispatch({
-          type: RECEIVE_NEXT_PAGE,
-          posts,
-        })
+        dispatch(receivePosts(posts, page))
         dispatch(isLoading(false))
       })
       .catch(handleError)
@@ -61,17 +58,19 @@ export function search(flair, query) {
   }
 }
 
-export function receivePosts(posts) {
+export function receivePosts(posts, page = 1) {
   return {
     type: RECEIVE_POSTS,
     posts,
+    page
   }
 }
 
-export function receiveNewPosts(posts) {
+export function receiveNewPosts(posts, page = 0) {
   return {
     type: RECEIVE_NEW_POSTS,
     posts,
+    page
   }
 }
 

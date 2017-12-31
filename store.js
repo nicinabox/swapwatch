@@ -4,7 +4,6 @@ import thunkMiddleware from 'redux-thunk'
 
 import {
   RECEIVE_POSTS,
-  RECEIVE_NEXT_PAGE,
   RECEIVE_NEW_POSTS,
   SET_ACTIVE_TAB,
   RECEIVE_LOCATION,
@@ -16,9 +15,7 @@ const initialState = {
   activeTab: '',
   params: {},
   location: {},
-  posts: [],
-  newPosts: [],
-  hasNextPage: true,
+  posts: {},
   isLoading: false,
 }
 
@@ -27,22 +24,19 @@ export const reducer = (state = initialState, action) => {
     case RECEIVE_POSTS:
       return {
         ...state,
-        posts: action.posts,
-        hasNextPage: !!action.posts.length,
-        newPosts: [],
-      }
-
-    case RECEIVE_NEXT_PAGE:
-      return {
-        ...state,
-        posts: state.posts.concat(action.posts),
-        hasNextPage: !!action.posts.length,
+        posts: {
+          ...state.posts,
+          [action.page]: action.posts,
+        },
       }
 
     case RECEIVE_NEW_POSTS:
       return {
         ...state,
-        newPosts: action.posts.concat(state.newPosts),
+        posts: {
+          ...state.posts,
+          [action.page]: action.posts.concat(state.posts[action.page] || []),
+        }
       }
 
     case RECEIVE_LOADING:
@@ -60,7 +54,10 @@ export const reducer = (state = initialState, action) => {
     case RECEIVE_LOCATION:
       return {
         ...state,
-        location: action.location
+        location: action.location,
+        posts: {
+          '1': state.posts['1']
+        },
       }
 
     case SET_ACTIVE_TAB:

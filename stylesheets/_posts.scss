@@ -42,6 +42,48 @@
     }
   }
 
+  .page {
+    border-top: 2px solid #ddd;
+    padding-top: 20px;
+
+    &.new {
+      .post {
+        background: lightyellow;
+      }
+
+      .page-heading-text {
+        color: $new-posts;
+      }
+    }
+  }
+
+  .page-heading {
+    position: sticky;
+    top: 10px;
+    margin: 0;
+    margin-top: -37px;
+    margin-right: -110px;
+    width: 100px;
+    float: right;
+
+    .page-heading-text {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 20px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: gray;
+      background: #f7f7f7;
+    }
+
+    @media (max-width: 574px) {
+      margin-right: auto;
+      width: auto;
+      float: none;
+      text-align: center;
+    }
+  }
+
   .new-posts {
     border-bottom: 2px solid #ddd;
     margin-bottom: 20px;

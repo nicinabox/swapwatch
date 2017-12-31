@@ -1,20 +1,37 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import last from 'lodash/last'
+import kebabCase from 'lodash/kebabCase'
 import { getNextPage } from '../actions'
 import Post from './Post'
 
 export class Posts extends React.Component {
   constructor(props) {
     super(props)
-    this._handleLoadMore = this._handleLoadMore.bind(this)
+    this.handleLoadMore = this.handleLoadMore.bind(this)
   }
 
-  _handleLoadMore(e) {
+  getLastPageNumber() {
+    let pages = Object.keys(this.props.state.posts)
+    return last(pages)
+  }
+
+  getLastPage() {
+    return this.props.state.posts[this.getLastPageNumber()] || []
+  }
+
+  getNextPage() {
+    return +this.getLastPageNumber() + 1
+  }
+
+  handleLoadMore(e) {
     e.preventDefault()
 
-    const { posts, activeTab } = this.props.state
+    const { activeTab } = this.props.state
+    const lastPost = last(this.getLastPage())
+    const nextPage = this.getNextPage()
 
-    this.props.getNextPage(posts[posts.length - 1].name, activeTab)
+    this.props.getNextPage(lastPost.name, activeTab, nextPage)
   }
 
   renderPosts(posts) {
@@ -26,23 +43,31 @@ export class Posts extends React.Component {
   }
 
   render() {
-    let { isLoading, newPosts, posts = [] } = this.props.state
+    const { posts, isLoading } = this.props.state
 
     return (
       <div className="posts">
         <div style={isLoading ? { opacity: 0.6 } : {}}>
 
-          {newPosts.length ? (
-            <div className="new-posts">
-              {this.renderPosts(newPosts)}
-            </div>
-          ) : null}
+          {Object.keys(posts).map((page) => {
+            if (!posts[page].length) return
+            const pageName = +page ? `Page ${page}` : 'New'
 
-          {this.renderPosts(posts)}
+            return (
+              <div key={page} className={['page', kebabCase(pageName)].join(' ')}>
+                <h5 className="page-heading">
+                  <span className="page-heading-text">
+                    {pageName}
+                  </span>
+                </h5>
+                {this.renderPosts(posts[page], page)}
+              </div>
+            )
+          })}
 
-          {this.props.state.hasNextPage ? (
+          {this.getLastPage().length ? (
             <a href="#"
-              onClick={this._handleLoadMore}
+              onClick={this.handleLoadMore}
               className="load-more">
               More
             </a>

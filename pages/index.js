@@ -2,6 +2,8 @@ import React from 'react'
 import debounce from 'lodash/debounce'
 import startCase from 'lodash/startCase'
 import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
+import flatten from 'lodash/flatten'
 import withRedux from 'next-redux-wrapper'
 import pathToRegexp from 'path-to-regexp'
 import qs from 'qs'
@@ -61,7 +63,7 @@ export class App extends React.Component {
 
   componentWillReceiveProps(nextProps, nextState) {
     if (this.didNewPostsChange(nextProps)) {
-      this.watcher.before = nextProps.state.newPosts[0].name
+      this.watcher.before = nextProps.state.allPosts[0].name
     }
 
     if (this.didLocationChange(nextProps)) {
@@ -76,8 +78,9 @@ export class App extends React.Component {
   }
 
   didNewPostsChange(nextProps) {
-    const { newPosts } = nextProps.state
-    return newPosts.length && newPosts.length !== this.props.state.newPosts.length
+    const { posts: nextPosts } = nextProps.state
+    const { posts } = this.props.state
+    return nextPosts[0] && !isEqual(nextPosts[0], posts[0])
   }
 
   didLocationChange(nextProps) {
@@ -106,9 +109,9 @@ export class App extends React.Component {
   }
 
   createWatcher(props = this.props) {
-    const { activeTab, location, params, posts, newPosts } = props.state
+    const { activeTab, location, params, posts, allPosts } = props.state
     const flair = activeTab === 'All' ? '' : activeTab
-    const before = (newPosts[0] || posts[0] || {}).name
+    const before = (allPosts[0] || {}).name
 
     return new Watcher({
       subreddit: location.subreddit,
@@ -175,6 +178,7 @@ export class App extends React.Component {
               </header>
 
               <Search />
+
               <Posts />
             </div>
           </div>
@@ -187,5 +191,8 @@ export class App extends React.Component {
 }
 
 export default withRedux(initStore, (state) => ({
-  state
+  state: {
+    ...state,
+    allPosts: flatten(Object.values(state.posts))
+  }
 }))(App)
