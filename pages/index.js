@@ -147,7 +147,7 @@ export class App extends React.Component {
   formatSeconds(seconds) {
     return [
       Math.floor(seconds / 60),
-      Math.floor(seconds % 60),
+      Math.floor(seconds % 60).toString().padStart(2, '0'),
     ].join(':')
   }
 
