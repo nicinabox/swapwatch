@@ -140,9 +140,15 @@ export class App extends React.Component {
   }
 
   render() {
+    const { posts, activeTab } = this.props.state
+    const newPosts = posts[0] || []
+
     return (
       <div id="root">
-        <Head badge={this.props.state.newPosts.length} />
+        <Head
+          badge={newPosts.length}
+          activeTab={activeTab}
+        />
 
         <Header />
 

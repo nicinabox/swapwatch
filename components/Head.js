@@ -2,8 +2,11 @@ import React from 'react'
 import Head from 'next/head'
 import Script from './Script'
 
-export default ({badge}) => {
-  const title = ['SwapWatch', badge && `(${badge})`].filter(f => f).join(' ')
+export default ({activeTab, badge}) => {
+  const title = [
+    `SwapWatch - ${activeTab}`,
+    badge && `(${badge})`
+  ].filter(f => f).join(' ')
 
   return (
     <Head>
