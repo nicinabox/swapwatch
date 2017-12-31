@@ -19,6 +19,11 @@ export default ({activeTab, badge}) => {
       <link href="/static/reflex.min.css" rel="stylesheet" />
       <link href="/static/main.css" rel="stylesheet" />
 
+      <script src="//d2wy8f7a9ursnm.cloudfront.net/v4/bugsnag.min.js"></script>
+      <Script>{`
+        window.bugsnagClient = bugsnag('135449dbe2c1c79a4a1009daeb951dca')
+      `}</Script>
+
       <Script>{`
         var _gauges = _gauges || [];
         (function() {
