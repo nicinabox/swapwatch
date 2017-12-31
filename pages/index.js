@@ -142,6 +142,13 @@ export class App extends React.Component {
     return activeTab
   }
 
+  formatSeconds(seconds) {
+    return [
+      Math.floor(seconds / 60),
+      Math.floor(seconds % 60),
+    ].join(':')
+  }
+
   render() {
     const { posts, activeTab } = this.props.state
     const newPosts = posts[0] || []
@@ -171,7 +178,7 @@ export class App extends React.Component {
                   <a href="#" className="text-underline" onClick={this.handleRefresh}>
                     Refresh
                     {this.state.refreshInterval ? (
-                      ` (${this.state.refreshInterval}s)`
+                      ` (${this.formatSeconds(this.state.refreshInterval)})`
                     ) : null}
                   </a>
                 </div>
