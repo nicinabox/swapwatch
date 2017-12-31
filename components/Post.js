@@ -73,7 +73,7 @@ export default class Post extends Component {
     const { post } = this.props
 
     return (
-      <a href={post.url} className={[
+      <a id={post.id} href={post.url} className={[
         'post',
         `type-${kebabCase(post.type)}`
       ].join(' ')}>
