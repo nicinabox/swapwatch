@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import timeago from 'timeago.js'
+import { distanceInWords } from 'date-fns'
 import startCase from 'lodash/startCase'
 import kebabCase from 'lodash/kebabCase'
 
@@ -14,7 +14,27 @@ export default class Post extends Component {
       isBuying,
       title: isBuying ? props.post.want : props.post.have || title,
       details: isBuying ? props.post.have : props.post.want,
+      timeAgo: this.getTimeAgo(props)
     }
+  }
+
+  componentDidMount() {
+    this.intervalId = setInterval(() => {
+      this.setState({
+        timeAgo: this.getTimeAgo()
+      })
+    }, 1000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalId)
+  }
+
+  getTimeAgo(props = this.props) {
+    return [
+      distanceInWords(props.post.created_utc * 1000, new Date),
+      'ago'
+    ].join(' ')
   }
 
   _renderLocation() {
@@ -31,7 +51,7 @@ export default class Post extends Component {
   _renderTimeAgo() {
     return (
       <span className="text-muted">
-        {new timeago().format(this.props.post.created_utc * 1000)}
+        {this.getTimeAgo()}
       </span>
     )
   }
