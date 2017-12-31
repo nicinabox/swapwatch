@@ -15,7 +15,8 @@ import {
   receiveParams,
   receiveLocation,
   receiveNewPosts,
-  changeSubreddit
+  changeSubreddit,
+  mergeNewPosts,
 } from '../actions'
 import Watcher from '../lib/watcher'
 import { parsePosts } from '../lib/posts'
@@ -130,6 +131,7 @@ export class App extends React.Component {
     this.watcher.restart()
 
     this.setState({ refreshInterval: false })
+    this.props.dispatch(mergeNewPosts())
   }
 
   getHeading() {

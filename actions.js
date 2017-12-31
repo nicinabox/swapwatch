@@ -4,6 +4,7 @@ import toQuery from './lib/toQuery'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const RECEIVE_NEXT_PAGE = 'RECEIVE_NEXT_PAGE'
 export const RECEIVE_NEW_POSTS = 'RECEIVE_NEW_POSTS'
+export const MERGE_NEW_POSTS = 'MERGE_NEW_POSTS'
 export const SET_ACTIVE_TAB = 'SET_ACTIVE_TAB'
 export const RECEIVE_LOADING = 'RECEIVE_LOADING'
 export const RECEIVE_LOCATION = 'RECEIVE_LOCATION'
@@ -71,6 +72,12 @@ export function receiveNewPosts(posts, page = 0) {
     type: RECEIVE_NEW_POSTS,
     posts,
     page
+  }
+}
+
+export function mergeNewPosts() {
+  return {
+    type: MERGE_NEW_POSTS
   }
 }
 

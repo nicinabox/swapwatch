@@ -9,6 +9,7 @@ import {
   RECEIVE_LOCATION,
   RECEIVE_PARAMS,
   RECEIVE_LOADING,
+  MERGE_NEW_POSTS,
 } from './actions'
 
 const initialState = {
@@ -36,6 +37,16 @@ export const reducer = (state = initialState, action) => {
         posts: {
           ...state.posts,
           [action.page]: action.posts.concat(state.posts[action.page] || []),
+        }
+      }
+
+    case MERGE_NEW_POSTS:
+      return {
+        ...state,
+        posts: {
+          ...state.posts,
+          '0': [],
+          '1': [...state.posts['0'], ...state.posts['1']]
         }
       }
 
