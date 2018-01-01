@@ -16,7 +16,7 @@ const initialState = {
   activeTab: '',
   params: {},
   location: {},
-  posts: {},
+  posts: { 0: [], 1: [], },
   isLoading: false,
 }
 
@@ -45,8 +45,8 @@ export const reducer = (state = initialState, action) => {
         ...state,
         posts: {
           ...state.posts,
-          '0': [],
-          '1': [...state.posts['0'], ...state.posts['1']]
+          0: [],
+          1: [...(state.posts[0] || []), ...state.posts[1]]
         }
       }
 
@@ -67,7 +67,7 @@ export const reducer = (state = initialState, action) => {
         ...state,
         location: action.location,
         posts: {
-          '1': state.posts['1']
+          1: state.posts[1]
         },
       }
 
