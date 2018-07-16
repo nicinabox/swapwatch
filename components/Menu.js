@@ -13,6 +13,7 @@ export class Menu extends React.Component {
   _handleLinkClick(e) {
     e.preventDefault()
     Router.push('/', e.target.pathname)
+    window.scrollTo(0, 0)
   }
 
   render() {
