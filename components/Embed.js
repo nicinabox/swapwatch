@@ -2,14 +2,18 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 const imgurId = (url) => {
-  const matches = url.match(/imgur.com\/((:?a\/)?.*)?/)
-  return matches && matches[1]
+  const matches = url.match(/((?:a\/)?\w+)$/)
+
+  if (/gallery/.test(url)) {
+    return 'a/' + matches[1]
+  }
+
+  return matches[1]
 }
 
 export default class Embed extends Component {
   componentDidMount() {
     let script = document.createElement('script')
-    script.id = 'globalImgurEmbedScriptTagId'
     script.src = "//s.imgur.com/min/embed.js"
     script.type = "text/javascript"
     script.async = true
