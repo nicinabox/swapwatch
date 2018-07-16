@@ -21,11 +21,15 @@
     border: 2px solid transparent;
 
     .images {
-      font-size: 14px;;
+      font-size: 14px;
 
       a {
         display: block;
       }
+    }
+
+    img {
+      max-width: 100%;
     }
 
     &:hover {

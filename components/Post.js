@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { distanceInWords } from 'date-fns'
 import startCase from 'lodash/startCase'
 import kebabCase from 'lodash/kebabCase'
+import Embed from './Embed'
 
 export default class Post extends Component {
   constructor(props) {
@@ -117,6 +118,8 @@ export default class Post extends Component {
             </span>
           </div>
         )}
+
+        <Embed images={post.images} />
       </a>
     )
   }
