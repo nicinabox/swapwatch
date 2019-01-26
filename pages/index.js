@@ -91,7 +91,7 @@ export class App extends React.Component {
   }
 
   onBeforeFetch() {
-    if (this.ticker) clearTimeout(this.ticker)
+    if (this.ticker) clearInterval(this.ticker)
 
     const { interval } = this.watcher
     const tick = 1000
