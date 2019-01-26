@@ -130,7 +130,7 @@ export class App extends React.Component {
     this.watcher.fetch()
     this.watcher.restart()
 
-    this.setState({ refreshInterval: false })
+    this.setState({ refreshInterval: null })
     this.props.dispatch(mergeNewPosts())
   }
 
