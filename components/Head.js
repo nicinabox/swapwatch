@@ -21,7 +21,9 @@ export default ({activeTab, badge}) => {
 
       <script src="//d2wy8f7a9ursnm.cloudfront.net/v4/bugsnag.min.js"></script>
       <Script>{`
-        window.bugsnagClient = bugsnag('135449dbe2c1c79a4a1009daeb951dca')
+        bugsnag && (
+          window.bugsnagClient = bugsnag('135449dbe2c1c79a4a1009daeb951dca')
+        )
       `}</Script>
 
       <Script>{`
